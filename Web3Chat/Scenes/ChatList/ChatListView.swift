@@ -24,7 +24,7 @@ struct ChatListView: View {
     .navigationTitle("Chats")
     .toolbar {
       ToolbarItem {
-        Button("Refresh chats") { model.loadChatsTapped() }
+        Button("Get chats") { model.loadChatsTapped() }
       }
     }
   }

@@ -1,4 +1,4 @@
-// Web3ChatApp.swift is a part of Web3Chat project
+// AppView.swift is a part of Web3Chat project
 //
 // Created by Andrei Chenchik (andrei@chenchik.me), 19/2/25
 // Copyright © 2025 Andrei Chenchik, Inc. All rights reserved.
@@ -8,11 +8,14 @@
 
 import SwiftUI
 
-@main
-struct Web3ChatApp: App {
-  var body: some Scene {
-    WindowGroup {
-      AppView()
+struct AppView: View {
+  var body: some View {
+    NavigationStack {
+      ChatListView()
     }
   }
+}
+
+#Preview {
+  AppView()
 }

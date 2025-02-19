@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		75B5FA852D66613700E456DC /* web3.swift in Frameworks */ = {isa = PBXBuildFile; productRef = 75B5FA842D66613700E456DC /* web3.swift */; };
+		75B5FA972D667EAA00E456DC /* Web3 in Frameworks */ = {isa = PBXBuildFile; productRef = 75B5FA962D667EAA00E456DC /* Web3 */; };
+		75B5FA992D667EAA00E456DC /* Web3ContractABI in Frameworks */ = {isa = PBXBuildFile; productRef = 75B5FA982D667EAA00E456DC /* Web3ContractABI */; };
+		75B5FA9B2D667EAA00E456DC /* Web3PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 75B5FA9A2D667EAA00E456DC /* Web3PromiseKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +45,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75B5FA852D66613700E456DC /* web3.swift in Frameworks */,
+				75B5FA992D667EAA00E456DC /* Web3ContractABI in Frameworks */,
+				75B5FA9B2D667EAA00E456DC /* Web3PromiseKit in Frameworks */,
+				75B5FA972D667EAA00E456DC /* Web3 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +99,9 @@
 			);
 			name = Web3Chat;
 			packageProductDependencies = (
-				75B5FA842D66613700E456DC /* web3.swift */,
+				75B5FA962D667EAA00E456DC /* Web3 */,
+				75B5FA982D667EAA00E456DC /* Web3ContractABI */,
+				75B5FA9A2D667EAA00E456DC /* Web3PromiseKit */,
 			);
 			productName = Web3Chat;
 			productReference = 75B5FA472D665FBD00E456DC /* Web3Chat.app */;
@@ -153,7 +159,7 @@
 			mainGroup = 75B5FA3E2D665FBD00E456DC;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				75B5FA832D66613700E456DC /* XCRemoteSwiftPackageReference "web3" */,
+				75B5FA952D667EAA00E456DC /* XCRemoteSwiftPackageReference "Web3.swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 75B5FA482D665FBD00E456DC /* Products */;
@@ -459,21 +465,31 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		75B5FA832D66613700E456DC /* XCRemoteSwiftPackageReference "web3" */ = {
+		75B5FA952D667EAA00E456DC /* XCRemoteSwiftPackageReference "Web3.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/argentlabs/web3.swift";
+			repositoryURL = "https://github.com/Boilertalk/Web3.swift.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.6.1;
+				minimumVersion = 0.8.8;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		75B5FA842D66613700E456DC /* web3.swift */ = {
+		75B5FA962D667EAA00E456DC /* Web3 */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 75B5FA832D66613700E456DC /* XCRemoteSwiftPackageReference "web3" */;
-			productName = web3.swift;
+			package = 75B5FA952D667EAA00E456DC /* XCRemoteSwiftPackageReference "Web3.swift" */;
+			productName = Web3;
+		};
+		75B5FA982D667EAA00E456DC /* Web3ContractABI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 75B5FA952D667EAA00E456DC /* XCRemoteSwiftPackageReference "Web3.swift" */;
+			productName = Web3ContractABI;
+		};
+		75B5FA9A2D667EAA00E456DC /* Web3PromiseKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 75B5FA952D667EAA00E456DC /* XCRemoteSwiftPackageReference "Web3.swift" */;
+			productName = Web3PromiseKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
