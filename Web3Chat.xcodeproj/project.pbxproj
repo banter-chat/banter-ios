@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		75B5FA852D66613700E456DC /* web3.swift in Frameworks */ = {isa = PBXBuildFile; productRef = 75B5FA842D66613700E456DC /* web3.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		75B5FA582D665FBE00E456DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -39,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75B5FA852D66613700E456DC /* web3.swift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +95,7 @@
 			);
 			name = Web3Chat;
 			packageProductDependencies = (
+				75B5FA842D66613700E456DC /* web3.swift */,
 			);
 			productName = Web3Chat;
 			productReference = 75B5FA472D665FBD00E456DC /* Web3Chat.app */;
@@ -146,6 +152,9 @@
 			);
 			mainGroup = 75B5FA3E2D665FBD00E456DC;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				75B5FA832D66613700E456DC /* XCRemoteSwiftPackageReference "web3" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 75B5FA482D665FBD00E456DC /* Products */;
 			projectDirPath = "";
@@ -448,6 +457,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		75B5FA832D66613700E456DC /* XCRemoteSwiftPackageReference "web3" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/argentlabs/web3.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		75B5FA842D66613700E456DC /* web3.swift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 75B5FA832D66613700E456DC /* XCRemoteSwiftPackageReference "web3" */;
+			productName = web3.swift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 75B5FA3F2D665FBD00E456DC /* Project object */;
 }
