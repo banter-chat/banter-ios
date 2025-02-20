@@ -33,12 +33,14 @@ func getChats(onNewChat: @escaping (String) -> Void) {
   let contractHex = "0xa4f241137a82E03f69c866436483B17Ed50E5564"
   let contractAddress = try! EthereumAddress(hex: contractHex, eip55: true)
 
-  let contract = web3.eth.Contract(type: ChatListContract.self, address: contractAddress)
-
-  contract.getChats().call { response, _ in
-    let chatsArray = response!["availableChats"]! as! [String]
-    for chat in chatsArray {
-      onNewChat(chat)
+  web3.eth.getLogs(addresses: [contractAddress],
+                   topics: nil,
+                   fromBlock: .earliest,
+                   toBlock: .latest) {
+    for log in $0.result! {
+      let event = try! ABI.decodeLog(event: ChatListContract.NewChat, from: log)
+      let chatName = event["name"] as! String
+      onNewChat(chatName)
     }
   }
 

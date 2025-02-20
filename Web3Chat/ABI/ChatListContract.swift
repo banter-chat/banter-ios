@@ -11,8 +11,6 @@ import Web3ContractABI
 
 public protocol ChatListContractProtocol: EthereumContract {
   static var NewChat: SolidityEvent { get }
-
-  func getChats() -> SolidityInvocation
 }
 
 final class ChatListContract: StaticContract, ChatListContractProtocol {
@@ -37,12 +35,5 @@ extension ChatListContract {
       SolidityEvent.Parameter(name: "name", type: .string, indexed: false)
     ]
     return SolidityEvent(name: "NewChat", anonymous: false, inputs: inputs)
-  }
-
-  func getChats() -> SolidityInvocation {
-    let outputs = [SolidityFunctionParameter(name: "availableChats",
-                                             type: .array(type: .string, length: nil))]
-    let method = SolidityConstantFunction(name: "getChats", outputs: outputs, handler: self)
-    return method.invoke()
   }
 }
