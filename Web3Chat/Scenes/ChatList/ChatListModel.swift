@@ -12,11 +12,13 @@ import SwiftUI
 final class ChatListModel {
   var chats: [Chat] = []
 
-  func loadChatsTapped() {
-    getChats { result in
-      guard let chats = try? result.get() else { return }
+  var task: URLSessionTask?
+
+  func viewAppeared() {
+    getChats { newChat in
       DispatchQueue.main.async {
-        self.chats = chats.map { Chat(address: $0) }
+        let chat = Chat(address: newChat)
+        self.chats.append(chat)
       }
     }
   }
@@ -25,47 +27,28 @@ final class ChatListModel {
 import Web3
 import Web3ContractABI
 
-func getChats(completion: @escaping (Result<[String], Error>) -> Void) {
-  let web3 = Web3(rpcURL: "https://virtual.sepolia.rpc.tenderly.co/98127e94-dbd9-4623-a1cb-d59bb30019d1")
+func getChats(onNewChat: @escaping (String) -> Void) {
+  let web3 = try! Web3(wsUrl: "wss://virtual.sepolia.rpc.tenderly.co/06ab9e05-c020-413c-b832-5e7f0cb123c3")
 
-  let contractHex = "0xB13E8C24ad747788232d4d035Be3E0e029Ac3008"
+  let contractHex = "0x4754381b7fB7ebD1CBb263A197880492E0cb25e6"
   let contractAddress = try! EthereumAddress(hex: contractHex, eip55: true)
 
-  let jsonABI = """
-  [
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "newChat",
-          "type": "string"
-        }
-      ],
-      "name": "addChat",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "getChats",
-      "outputs": [
-        {
-          "internalType": "string[]",
-          "name": "availableChats",
-          "type": "string[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    }
-  ]
-  """.data(using: .utf8)!
+  let contract = web3.eth.Contract(type: ChatListContract.self, address: contractAddress)
 
-  let contract = try! web3.eth.Contract(json: jsonABI, abiKey: nil, address: contractAddress)
-
-  contract["getChats"]!().call { response, _ in
+  contract.getChats().call { response, _ in
     let chatsArray = response!["availableChats"]! as! [String]
-    completion(.success(chatsArray))
+    for chat in chatsArray {
+      onNewChat(chat)
+    }
+  }
+
+  try! web3.eth.subscribeToLogs(addresses: [contractAddress]) { _ in
+    print("subscribed")
+  } onEvent: { resp in
+    let log = resp.result!
+
+    let event = try! ABI.decodeLog(event: ChatListContract.NewChat, from: log)
+    let chatName = event["name"] as! String
+    onNewChat(chatName)
   }
 }

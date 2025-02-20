@@ -12,20 +12,12 @@ struct ChatListView: View {
   @State var model = ChatListModel()
 
   var body: some View {
-    ZStack {
-      if model.chats.isEmpty {
-        Text("No chats found, try refreshing")
-      } else {
-        List(model.chats) { chat in
-          Text(chat.address)
-        }
-      }
+    List(model.chats) { chat in
+      Text(chat.address)
     }
     .navigationTitle("Chats")
-    .toolbar {
-      ToolbarItem {
-        Button("Get chats") { model.loadChatsTapped() }
-      }
+    .task {
+      model.viewAppeared()
     }
   }
 }
