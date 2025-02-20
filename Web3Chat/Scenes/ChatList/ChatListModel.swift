@@ -30,7 +30,7 @@ import Web3ContractABI
 func getChats(onNewChat: @escaping (String) -> Void) {
   let web3 = try! Web3(wsUrl: "wss://virtual.sepolia.rpc.tenderly.co/06ab9e05-c020-413c-b832-5e7f0cb123c3")
 
-  let contractHex = "0x4754381b7fB7ebD1CBb263A197880492E0cb25e6"
+  let contractHex = "0xa4f241137a82E03f69c866436483B17Ed50E5564"
   let contractAddress = try! EthereumAddress(hex: contractHex, eip55: true)
 
   let contract = web3.eth.Contract(type: ChatListContract.self, address: contractAddress)
