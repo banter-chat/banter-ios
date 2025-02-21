@@ -13,7 +13,7 @@ struct BanterApp: App {
   var body: some Scene {
     WindowGroup {
       NavigationStack {
-        ChatListView()
+        SettingsView()
       }
     }
   }

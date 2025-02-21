@@ -6,23 +6,25 @@
 // Proprietary and confidential
 //
 
+import Foundation
 import Web3
 import Web3ContractABI
 
-func getChats(onNewChat: @escaping (String) -> Void) {
-  let web3 = try! Web3(wsUrl: "wss://virtual.sepolia.rpc.tenderly.co/06ab9e05-c020-413c-b832-5e7f0cb123c3")
+func getChats(
+  rpcWSURL: String, contractAddress: String, onNewChat: @escaping (String) -> Void
+) {
+  let web3 = try! Web3(wsUrl: rpcWSURL)
 
-  let contractHex = "0xa4f241137a82E03f69c866436483B17Ed50E5564"
-  let contractAddress = try! EthereumAddress(hex: contractHex, eip55: true)
+  let contractAddress = try! EthereumAddress(hex: contractAddress, eip55: false)
 
   web3.eth.getLogs(addresses: [contractAddress],
                    topics: nil,
                    fromBlock: .earliest,
                    toBlock: .latest) {
     for log in $0.result! {
-      let event = try! ABI.decodeLog(event: ChatListContract.NewChat, from: log)
-      let chatName = event["name"] as! String
-      onNewChat(chatName)
+      let event = try! ABI.decodeLog(event: ChatListContract.ChatCreated, from: log)
+      let chat = event["chatContract"] as! EthereumAddress
+      onNewChat(chat.hex(eip55: true))
     }
   }
 
@@ -31,8 +33,8 @@ func getChats(onNewChat: @escaping (String) -> Void) {
   } onEvent: { resp in
     let log = resp.result!
 
-    let event = try! ABI.decodeLog(event: ChatListContract.NewChat, from: log)
-    let chatName = event["name"] as! String
-    onNewChat(chatName)
+    let event = try! ABI.decodeLog(event: ChatListContract.ChatCreated, from: log)
+    let chat = event["chatContract"] as! EthereumAddress
+    onNewChat(chat.hex(eip55: true))
   }
 }

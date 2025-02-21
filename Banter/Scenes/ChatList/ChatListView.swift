@@ -9,7 +9,14 @@
 import SwiftUI
 
 struct ChatListView: View {
-  @State var model = ChatListModel()
+  @State var model: ChatListModel
+
+  init(rpcWSURL: String, contractAddress: String) {
+    _model = State(
+      wrappedValue: ChatListModel(rpcWSURL: rpcWSURL,
+                                  contractAddress: contractAddress)
+    )
+  }
 
   var body: some View {
     List(model.chats) { chat in
@@ -25,7 +32,7 @@ struct ChatListView: View {
 #if DEBUG
   #Preview {
     NavigationStack {
-      ChatListView()
+      ChatListView(rpcWSURL: "", contractAddress: "")
     }
   }
 #endif

@@ -9,8 +9,25 @@
 import Web3
 import Web3ContractABI
 
+// Add ChatInfo struct
+public struct ChatInfo {
+  let chatContract: EthereumAddress
+  let author: EthereumAddress
+  let recipient: EthereumAddress
+  let createdAt: BigUInt
+  let exists: Bool
+}
+
 public protocol ChatListContractProtocol: EthereumContract {
-  static var NewChat: SolidityEvent { get }
+  // Events
+  static var ChatCreated: SolidityEvent { get }
+
+  // Read methods
+  func getUserChats() -> SolidityInvocation
+  func getChat() -> SolidityInvocation
+
+  // Write methods
+  func createChat() -> SolidityInvocation
 }
 
 final class ChatListContract: StaticContract, ChatListContractProtocol {
@@ -20,7 +37,7 @@ final class ChatListContract: StaticContract, ChatListContractProtocol {
   var constructor: SolidityConstructor?
 
   var events: [SolidityEvent] {
-    [ChatListContract.NewChat]
+    [ChatListContract.ChatCreated]
   }
 
   required init(address: EthereumAddress?, eth: Web3.Eth) {
@@ -30,10 +47,66 @@ final class ChatListContract: StaticContract, ChatListContractProtocol {
 }
 
 extension ChatListContract {
-  static var NewChat: SolidityEvent {
+  static var ChatCreated: SolidityEvent {
     let inputs: [SolidityEvent.Parameter] = [
-      SolidityEvent.Parameter(name: "name", type: .string, indexed: false)
+      SolidityEvent.Parameter(name: "author", type: .address, indexed: true),
+      SolidityEvent.Parameter(name: "recipient", type: .address, indexed: true),
+      SolidityEvent.Parameter(name: "chatContract", type: .address, indexed: false),
+      SolidityEvent.Parameter(name: "createdAt", type: .uint256, indexed: false),
     ]
-    return SolidityEvent(name: "NewChat", anonymous: false, inputs: inputs)
+    return SolidityEvent(name: "ChatCreated", anonymous: false, inputs: inputs)
+  }
+
+  func getUserChats() -> SolidityInvocation {
+    let outputs = [
+      SolidityFunctionParameter(
+        name: "",
+        type: .array(
+          type: .tuple([
+            .address,
+            .address,
+            .address,
+            .uint256,
+            .bool,
+          ]),
+          length: nil
+        )
+      )
+    ]
+    let method = SolidityConstantFunction(name: "getUserChats", outputs: outputs, handler: self)
+    return method.invoke()
+  }
+
+  func getChat() -> SolidityInvocation {
+    let inputs = [
+      SolidityFunctionParameter(name: "chatContract", type: .address)
+    ]
+    let outputs = [
+      SolidityFunctionParameter(
+        name: "",
+        type: .tuple([
+          .address,  // chatContract
+          .address,  // author
+          .address,  // recipient
+          .uint256,  // createdAt
+          .bool,  // exists
+        ])
+      )
+    ]
+    let method = SolidityConstantFunction(
+      name: "getChat", inputs: inputs, outputs: outputs, handler: self)
+    return method.invoke()
+  }
+
+  func createChat() -> SolidityInvocation {
+    let inputs = [
+      SolidityFunctionParameter(name: "recipient", type: .address)
+    ]
+    let outputs = [
+      SolidityFunctionParameter(name: "", type: .address)  // returns chatContract address
+    ]
+    let method = SolidityNonPayableFunction(
+      name: "createChat", inputs: inputs, outputs: outputs, handler: self)
+    return method.invoke()
   }
 }

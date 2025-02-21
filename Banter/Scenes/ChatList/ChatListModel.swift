@@ -10,15 +10,26 @@ import SwiftUI
 
 @Observable
 final class ChatListModel {
-  var chats: [Chat] = []
+  private let rpcWSURL: String
+  private let contractAddress: String
 
-  var task: URLSessionTask?
+  var chats: [Chat] = []
+  var isSubscribed = false
+
+  init(rpcWSURL: String, contractAddress: String) {
+    self.rpcWSURL = rpcWSURL
+    self.contractAddress = contractAddress
+  }
 
   func viewAppeared() {
-    getChats { newChat in
+    guard !isSubscribed else { return }
+    isSubscribed = true
+    getChats(
+      rpcWSURL: rpcWSURL, contractAddress: contractAddress
+    ) { [weak self] newChat in
       DispatchQueue.main.async {
         let chat = Chat(address: newChat)
-        self.chats.append(chat)
+        self?.chats.append(chat)
       }
     }
   }
