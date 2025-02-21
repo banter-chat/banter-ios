@@ -16,6 +16,13 @@ extension SharedReaderKey
 }
 
 extension SharedReaderKey
+where Self == AppStorageKey<String>.Default {
+  static var chainId: Self {
+    Self[.appStorage("chainId"), default: ""]
+  }
+}
+
+extension SharedReaderKey
   where Self == AppStorageKey<String>.Default {
   static var chatListAddress: Self {
     Self[.appStorage("chatListAddress"), default: ""]

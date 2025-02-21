@@ -8,11 +8,24 @@
 
 import Sharing
 import SwiftUI
+import Web3
 
 @Observable
 final class ChatListModel {
+  @ObservationIgnored @Shared(.walletKeyHex) var walletKeyHex
+
   var chats: [Chat] = []
   var isSubscribed = false
+  var newChatAddress = ""
+
+  var walletAddress: String? {
+    let key = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex)
+    return key?.address.hex(eip55: true)
+  }
+
+  func copyWalletAddressTapped() {
+    UIPasteboard.general.string = walletAddress
+  }
 
   func viewAppeared() {
     guard !isSubscribed else { return }
@@ -23,5 +36,10 @@ final class ChatListModel {
         self?.chats.append(chat)
       }
     }
+  }
+
+  func createNewChat() {
+    createChat(recipient: newChatAddress)
+    newChatAddress = ""
   }
 }

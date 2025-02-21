@@ -27,7 +27,7 @@ public protocol ChatListContractProtocol: EthereumContract {
   func getChat() -> SolidityInvocation
 
   // Write methods
-  func createChat() -> SolidityInvocation
+  func createChat(recipient: EthereumAddress) -> SolidityInvocation
 }
 
 final class ChatListContract: StaticContract, ChatListContractProtocol {
@@ -52,7 +52,7 @@ extension ChatListContract {
       SolidityEvent.Parameter(name: "author", type: .address, indexed: true),
       SolidityEvent.Parameter(name: "recipient", type: .address, indexed: true),
       SolidityEvent.Parameter(name: "chatContract", type: .address, indexed: false),
-      SolidityEvent.Parameter(name: "createdAt", type: .uint256, indexed: false),
+      SolidityEvent.Parameter(name: "createdAt", type: .uint256, indexed: false)
     ]
     return SolidityEvent(name: "ChatCreated", anonymous: false, inputs: inputs)
   }
@@ -67,7 +67,7 @@ extension ChatListContract {
             .address,
             .address,
             .uint256,
-            .bool,
+            .bool
           ]),
           length: nil
         )
@@ -85,28 +85,30 @@ extension ChatListContract {
       SolidityFunctionParameter(
         name: "",
         type: .tuple([
-          .address,  // chatContract
-          .address,  // author
-          .address,  // recipient
-          .uint256,  // createdAt
-          .bool,  // exists
+          .address, // chatContract
+          .address, // author
+          .address, // recipient
+          .uint256, // createdAt
+          .bool // exists
         ])
       )
     ]
     let method = SolidityConstantFunction(
-      name: "getChat", inputs: inputs, outputs: outputs, handler: self)
+      name: "getChat", inputs: inputs, outputs: outputs, handler: self
+    )
     return method.invoke()
   }
 
-  func createChat() -> SolidityInvocation {
+  func createChat(recipient: EthereumAddress) -> SolidityInvocation {
     let inputs = [
       SolidityFunctionParameter(name: "recipient", type: .address)
     ]
     let outputs = [
-      SolidityFunctionParameter(name: "", type: .address)  // returns chatContract address
+      SolidityFunctionParameter(name: "", type: .address) // returns chatContract address
     ]
     let method = SolidityNonPayableFunction(
-      name: "createChat", inputs: inputs, outputs: outputs, handler: self)
-    return method.invoke()
+      name: "createChat", inputs: inputs, outputs: outputs, handler: self
+    )
+    return method.invoke(recipient)
   }
 }

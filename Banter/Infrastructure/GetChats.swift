@@ -7,36 +7,49 @@
 //
 
 import Foundation
+import Sharing
 import Web3
 import Web3ContractABI
-import Sharing
 
 func getChats(onNewChat: @escaping (String) -> Void) {
   @Shared(.rpcWSURL) var rpcWSURL
   @Shared(.chatListAddress) var chatListAddress
+  @Shared(.walletKeyHex) var walletKeyHex
 
-  let web3 = try! Web3(wsUrl: rpcWSURL)
-
-  let contractAddress = try! EthereumAddress(hex: chatListAddress, eip55: false)
+  guard
+    let web3 = try? Web3(wsUrl: rpcWSURL),
+    let contractAddress = try? EthereumAddress(hex: chatListAddress, eip55: true),
+    let caller = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex).address
+  else { return }
 
   web3.eth.getLogs(addresses: [contractAddress],
                    topics: nil,
                    fromBlock: .earliest,
-                   toBlock: .latest) {
-    for log in $0.result! {
-      let event = try! ABI.decodeLog(event: ChatListContract.ChatCreated, from: log)
-      let chat = event["chatContract"] as! EthereumAddress
-      onNewChat(chat.hex(eip55: false))
+                   toBlock: .latest) { resp in
+    guard let logs = resp.result else { return }
+    for log in logs {
+      processChatEvent(caller: caller, log: log, onNewChat: onNewChat)
     }
   }
 
   try! web3.eth.subscribeToLogs(addresses: [contractAddress]) { _ in
     print("subscribed")
   } onEvent: { resp in
-    let log = resp.result!
-
-    let event = try! ABI.decodeLog(event: ChatListContract.ChatCreated, from: log)
-    let chat = event["chatContract"] as! EthereumAddress
-    onNewChat(chat.hex(eip55: true))
+    guard let log = resp.result else { return }
+    processChatEvent(caller: caller, log: log, onNewChat: onNewChat)
   }
+}
+
+func processChatEvent(
+  caller: EthereumAddress, log: EthereumLogObject, onNewChat: @escaping (String) -> Void
+) {
+  guard
+    let event = try? ABI.decodeLog(event: ChatListContract.ChatCreated, from: log),
+    let author = event["author"] as? EthereumAddress,
+    let recipient = event["recipient"] as? EthereumAddress,
+    let chat = event["chatContract"] as? EthereumAddress,
+    author == caller || recipient == caller
+  else { return }
+
+  onNewChat(chat.hex(eip55: true))
 }
