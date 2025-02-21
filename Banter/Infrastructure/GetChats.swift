@@ -9,13 +9,15 @@
 import Foundation
 import Web3
 import Web3ContractABI
+import Sharing
 
-func getChats(
-  rpcWSURL: String, contractAddress: String, onNewChat: @escaping (String) -> Void
-) {
+func getChats(onNewChat: @escaping (String) -> Void) {
+  @Shared(.rpcWSURL) var rpcWSURL
+  @Shared(.chatListAddress) var chatListAddress
+
   let web3 = try! Web3(wsUrl: rpcWSURL)
 
-  let contractAddress = try! EthereumAddress(hex: contractAddress, eip55: false)
+  let contractAddress = try! EthereumAddress(hex: chatListAddress, eip55: false)
 
   web3.eth.getLogs(addresses: [contractAddress],
                    topics: nil,
@@ -24,7 +26,7 @@ func getChats(
     for log in $0.result! {
       let event = try! ABI.decodeLog(event: ChatListContract.ChatCreated, from: log)
       let chat = event["chatContract"] as! EthereumAddress
-      onNewChat(chat.hex(eip55: true))
+      onNewChat(chat.hex(eip55: false))
     }
   }
 

@@ -9,18 +9,11 @@
 import SwiftUI
 
 struct ChatListView: View {
-  @State var model: ChatListModel
-
-  init(rpcWSURL: String, contractAddress: String) {
-    _model = State(
-      wrappedValue: ChatListModel(rpcWSURL: rpcWSURL,
-                                  contractAddress: contractAddress)
-    )
-  }
+  @State var model = ChatListModel()
 
   var body: some View {
     List(model.chats) { chat in
-      Text(chat.address)
+      NavigationLink(chat.address, destination: ChatView())
     }
     .navigationTitle("Chats")
     .task {
@@ -32,7 +25,7 @@ struct ChatListView: View {
 #if DEBUG
   #Preview {
     NavigationStack {
-      ChatListView(rpcWSURL: "", contractAddress: "")
+      ChatListView()
     }
   }
 #endif

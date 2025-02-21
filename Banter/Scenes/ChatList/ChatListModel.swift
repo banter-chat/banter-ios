@@ -6,27 +6,18 @@
 // Proprietary and confidential
 //
 
+import Sharing
 import SwiftUI
 
 @Observable
 final class ChatListModel {
-  private let rpcWSURL: String
-  private let contractAddress: String
-
   var chats: [Chat] = []
   var isSubscribed = false
-
-  init(rpcWSURL: String, contractAddress: String) {
-    self.rpcWSURL = rpcWSURL
-    self.contractAddress = contractAddress
-  }
 
   func viewAppeared() {
     guard !isSubscribed else { return }
     isSubscribed = true
-    getChats(
-      rpcWSURL: rpcWSURL, contractAddress: contractAddress
-    ) { [weak self] newChat in
+    getChats { [weak self] newChat in
       DispatchQueue.main.async {
         let chat = Chat(address: newChat)
         self?.chats.append(chat)

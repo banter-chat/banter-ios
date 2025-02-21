@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		750DD2A32D68C59A000F28CB /* Sharing in Frameworks */ = {isa = PBXBuildFile; productRef = 750DD2A22D68C59A000F28CB /* Sharing */; };
 		75C2CE4B2D6886DA0050B8FB /* Web3 in Frameworks */ = {isa = PBXBuildFile; productRef = 75C2CE4A2D6886DA0050B8FB /* Web3 */; };
 		75C2CE4D2D6886DA0050B8FB /* Web3ContractABI in Frameworks */ = {isa = PBXBuildFile; productRef = 75C2CE4C2D6886DA0050B8FB /* Web3ContractABI */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				750DD2A32D68C59A000F28CB /* Sharing in Frameworks */,
 				75C2CE4D2D6886DA0050B8FB /* Web3ContractABI in Frameworks */,
 				75C2CE4B2D6886DA0050B8FB /* Web3 in Frameworks */,
 			);
@@ -59,11 +61,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		750DD2A12D68C59A000F28CB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		75C2CE132D6886810050B8FB = {
 			isa = PBXGroup;
 			children = (
 				75C2CE1E2D6886810050B8FB /* Banter */,
 				75C2CE2F2D6886830050B8FB /* BanterTests */,
+				750DD2A12D68C59A000F28CB /* Frameworks */,
 				75C2CE1D2D6886810050B8FB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -99,6 +109,7 @@
 			packageProductDependencies = (
 				75C2CE4A2D6886DA0050B8FB /* Web3 */,
 				75C2CE4C2D6886DA0050B8FB /* Web3ContractABI */,
+				750DD2A22D68C59A000F28CB /* Sharing */,
 			);
 			productName = Banter;
 			productReference = 75C2CE1C2D6886810050B8FB /* Banter.app */;
@@ -157,6 +168,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */,
+				750DD2A02D68C57A000F28CB /* XCRemoteSwiftPackageReference "swift-sharing" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 75C2CE1D2D6886810050B8FB /* Products */;
@@ -462,6 +474,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		750DD2A02D68C57A000F28CB /* XCRemoteSwiftPackageReference "swift-sharing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-sharing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.1;
+			};
+		};
 		75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Boilertalk/Web3.swift.git";
@@ -473,6 +493,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		750DD2A22D68C59A000F28CB /* Sharing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 750DD2A02D68C57A000F28CB /* XCRemoteSwiftPackageReference "swift-sharing" */;
+			productName = Sharing;
+		};
 		75C2CE4A2D6886DA0050B8FB /* Web3 */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */;

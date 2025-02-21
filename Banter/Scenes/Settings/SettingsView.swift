@@ -9,21 +9,44 @@
 import SwiftUI
 
 struct SettingsView: View {
-  @AppStorage("rpcWSURL") var rpcWSURL = ""
-  @AppStorage("chatListContract") var chatListContract = ""
+  @State private var model = SettingsModel()
 
   var body: some View {
     Form {
-      Section("Settings") {
-        TextField("WebSocket RPC URL", text: $rpcWSURL)
-        TextField("Chat List Contract", text: $chatListContract)
+      Section("Node settings") {
+        TextField("WebSocket RPC URL", text: $model.rpcWSURL)
+        TextField("Chat List Contract Address", text: $model.chatListAddress)
       }
 
-      NavigationLink(destination: ChatListView(rpcWSURL: rpcWSURL, contractAddress: chatListContract)) {
-        Label("Chat List", systemImage: "message")
+      Section {
+        if let address = model.walletAddress {
+          Button {
+            model.copyWalletAddressTapped()
+          } label: {
+            Label(address, systemImage: "doc.on.doc")
+              .lineLimit(1)
+          }
+        }
+
+        Button("Generate new") {
+          model.generateNewAddressTapped()
+        }
+      } header: {
+        Text("Wallet")
+      } footer: {
+        Text("Tap on address to copy")
       }
-      .disabled(rpcWSURL.isEmpty || chatListContract.isEmpty)
+
+      Section {
+        NavigationLink(destination: ChatListView()) {
+          Label("Chat List", systemImage: "message")
+        }
+        .disabled(!model.isReadyToChat)
+      } footer: {
+        Text("Make sure to top up your balance")
+      }
     }
+    .navigationTitle("Banter Chat")
   }
 }
 
