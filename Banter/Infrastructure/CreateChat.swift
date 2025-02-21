@@ -19,9 +19,9 @@ func createChat(recipient: String) {
 
   guard
     let web3 = try? Web3(wsUrl: rpcWSURL),
-    let contractAddress = try? EthereumAddress(hex: chatListAddress, eip55: true),
+    let contractAddress = try? EthereumAddress(hex: chatListAddress, eip55: false),
     let callerKey = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex),
-    let recipient = try? EthereumAddress(hex: recipient, eip55: true),
+    let recipient = try? EthereumAddress(hex: recipient, eip55: false),
     !chainId.isEmpty
   else { return }
 

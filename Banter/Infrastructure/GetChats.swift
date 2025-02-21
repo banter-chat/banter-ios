@@ -18,7 +18,7 @@ func getChats(onNewChat: @escaping (String) -> Void) {
 
   guard
     let web3 = try? Web3(wsUrl: rpcWSURL),
-    let contractAddress = try? EthereumAddress(hex: chatListAddress, eip55: true),
+    let contractAddress = try? EthereumAddress(hex: chatListAddress, eip55: false),
     let caller = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex).address
   else { return }
 

@@ -18,7 +18,7 @@ func sendMessage(address: String, message: String) {
 
   guard
     let web3 = try? Web3(wsUrl: rpcWSURL),
-    let contractAddress = try? EthereumAddress(hex: address, eip55: true),
+    let contractAddress = try? EthereumAddress(hex: address, eip55: false),
     let callerKey = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex),
     !chainId.isEmpty
   else { return }

@@ -16,7 +16,7 @@ func getMessages(chatAddress: String, onMessage: @escaping (String) -> Void) {
 
   guard
     let web3 = try? Web3(wsUrl: rpcWSURL),
-    let contractAddress = try? EthereumAddress(hex: chatAddress, eip55: true)
+    let contractAddress = try? EthereumAddress(hex: chatAddress, eip55: false)
   else { return }
 
   web3.eth.getLogs(addresses: [contractAddress],
