@@ -10,7 +10,7 @@ import Web3
 import Web3ContractABI
 
 // Add ChatInfo struct
-public struct ChatInfo {
+struct ChatInfo {
   let chatContract: EthereumAddress
   let author: EthereumAddress
   let recipient: EthereumAddress
@@ -18,7 +18,7 @@ public struct ChatInfo {
   let exists: Bool
 }
 
-public protocol ChatListContractProtocol: EthereumContract {
+protocol ChatListContractProtocol: EthereumContract {
   // Events
   static var ChatCreated: SolidityEvent { get }
 
