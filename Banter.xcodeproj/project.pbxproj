@@ -6,63 +6,54 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		750DD2A32D68C59A000F28CB /* Sharing in Frameworks */ = {isa = PBXBuildFile; productRef = 750DD2A22D68C59A000F28CB /* Sharing */; };
+		750DD2AD2D68E092000F28CB /* Web3PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 750DD2AC2D68E092000F28CB /* Web3PromiseKit */; };
+		75C2CE4B2D6886DA0050B8FB /* Web3 in Frameworks */ = {isa = PBXBuildFile; productRef = 75C2CE4A2D6886DA0050B8FB /* Web3 */; };
+		75C2CE4D2D6886DA0050B8FB /* Web3ContractABI in Frameworks */ = {isa = PBXBuildFile; productRef = 75C2CE4C2D6886DA0050B8FB /* Web3ContractABI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
-		75B5FA582D665FBE00E456DC /* PBXContainerItemProxy */ = {
+		75C2CE2D2D6886830050B8FB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 75B5FA3F2D665FBD00E456DC /* Project object */;
+			containerPortal = 75C2CE142D6886810050B8FB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 75B5FA462D665FBD00E456DC;
-			remoteInfo = Web3Chat;
-		};
-		75B5FA622D665FBE00E456DC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 75B5FA3F2D665FBD00E456DC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 75B5FA462D665FBD00E456DC;
-			remoteInfo = Web3Chat;
+			remoteGlobalIDString = 75C2CE1B2D6886810050B8FB;
+			remoteInfo = Banter;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		75B5FA472D665FBD00E456DC /* Web3Chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Web3Chat.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		75B5FA572D665FBE00E456DC /* Web3ChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Web3ChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		75B5FA612D665FBE00E456DC /* Web3ChatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Web3ChatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		75C2CE1C2D6886810050B8FB /* Banter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Banter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		75C2CE2C2D6886830050B8FB /* BanterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BanterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		75B5FA492D665FBD00E456DC /* Web3Chat */ = {
+		75C2CE1E2D6886810050B8FB /* Banter */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Web3Chat;
+			path = Banter;
 			sourceTree = "<group>";
 		};
-		75B5FA5A2D665FBE00E456DC /* Web3ChatTests */ = {
+		75C2CE2F2D6886830050B8FB /* BanterTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Web3ChatTests;
-			sourceTree = "<group>";
-		};
-		75B5FA642D665FBE00E456DC /* Web3ChatUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Web3ChatUITests;
+			path = BanterTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		75B5FA442D665FBD00E456DC /* Frameworks */ = {
+		75C2CE192D6886810050B8FB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				750DD2A32D68C59A000F28CB /* Sharing in Frameworks */,
+				75C2CE4D2D6886DA0050B8FB /* Web3ContractABI in Frameworks */,
+				750DD2AD2D68E092000F28CB /* Web3PromiseKit in Frameworks */,
+				75C2CE4B2D6886DA0050B8FB /* Web3 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		75B5FA542D665FBE00E456DC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		75B5FA5E2D665FBE00E456DC /* Frameworks */ = {
+		75C2CE292D6886830050B8FB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -72,22 +63,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		75B5FA3E2D665FBD00E456DC = {
+		750DD2A12D68C59A000F28CB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				75B5FA492D665FBD00E456DC /* Web3Chat */,
-				75B5FA5A2D665FBE00E456DC /* Web3ChatTests */,
-				75B5FA642D665FBE00E456DC /* Web3ChatUITests */,
-				75B5FA482D665FBD00E456DC /* Products */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		75C2CE132D6886810050B8FB = {
+			isa = PBXGroup;
+			children = (
+				75C2CE1E2D6886810050B8FB /* Banter */,
+				75C2CE2F2D6886830050B8FB /* BanterTests */,
+				750DD2A12D68C59A000F28CB /* Frameworks */,
+				75C2CE1D2D6886810050B8FB /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		75B5FA482D665FBD00E456DC /* Products */ = {
+		75C2CE1D2D6886810050B8FB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				75B5FA472D665FBD00E456DC /* Web3Chat.app */,
-				75B5FA572D665FBE00E456DC /* Web3ChatTests.xctest */,
-				75B5FA612D665FBE00E456DC /* Web3ChatUITests.xctest */,
+				75C2CE1C2D6886810050B8FB /* Banter.app */,
+				75C2CE2C2D6886830050B8FB /* BanterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,134 +92,107 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		75B5FA462D665FBD00E456DC /* Web3Chat */ = {
+		75C2CE1B2D6886810050B8FB /* Banter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 75B5FA6B2D665FBE00E456DC /* Build configuration list for PBXNativeTarget "Web3Chat" */;
+			buildConfigurationList = 75C2CE402D6886830050B8FB /* Build configuration list for PBXNativeTarget "Banter" */;
 			buildPhases = (
-				75B5FA432D665FBD00E456DC /* Sources */,
-				75B5FA442D665FBD00E456DC /* Frameworks */,
-				75B5FA452D665FBD00E456DC /* Resources */,
+				75C2CE182D6886810050B8FB /* Sources */,
+				75C2CE192D6886810050B8FB /* Frameworks */,
+				75C2CE1A2D6886810050B8FB /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				75B5FA492D665FBD00E456DC /* Web3Chat */,
+				75C2CE1E2D6886810050B8FB /* Banter */,
 			);
-			name = Web3Chat;
+			name = Banter;
 			packageProductDependencies = (
+				75C2CE4A2D6886DA0050B8FB /* Web3 */,
+				75C2CE4C2D6886DA0050B8FB /* Web3ContractABI */,
+				750DD2A22D68C59A000F28CB /* Sharing */,
+				750DD2AC2D68E092000F28CB /* Web3PromiseKit */,
 			);
-			productName = Web3Chat;
-			productReference = 75B5FA472D665FBD00E456DC /* Web3Chat.app */;
+			productName = Banter;
+			productReference = 75C2CE1C2D6886810050B8FB /* Banter.app */;
 			productType = "com.apple.product-type.application";
 		};
-		75B5FA562D665FBE00E456DC /* Web3ChatTests */ = {
+		75C2CE2B2D6886830050B8FB /* BanterTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 75B5FA6E2D665FBE00E456DC /* Build configuration list for PBXNativeTarget "Web3ChatTests" */;
+			buildConfigurationList = 75C2CE432D6886830050B8FB /* Build configuration list for PBXNativeTarget "BanterTests" */;
 			buildPhases = (
-				75B5FA532D665FBE00E456DC /* Sources */,
-				75B5FA542D665FBE00E456DC /* Frameworks */,
-				75B5FA552D665FBE00E456DC /* Resources */,
+				75C2CE282D6886830050B8FB /* Sources */,
+				75C2CE292D6886830050B8FB /* Frameworks */,
+				75C2CE2A2D6886830050B8FB /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				75B5FA592D665FBE00E456DC /* PBXTargetDependency */,
+				75C2CE2E2D6886830050B8FB /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				75B5FA5A2D665FBE00E456DC /* Web3ChatTests */,
+				75C2CE2F2D6886830050B8FB /* BanterTests */,
 			);
-			name = Web3ChatTests;
+			name = BanterTests;
 			packageProductDependencies = (
 			);
-			productName = Web3ChatTests;
-			productReference = 75B5FA572D665FBE00E456DC /* Web3ChatTests.xctest */;
+			productName = BanterTests;
+			productReference = 75C2CE2C2D6886830050B8FB /* BanterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		75B5FA602D665FBE00E456DC /* Web3ChatUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 75B5FA712D665FBE00E456DC /* Build configuration list for PBXNativeTarget "Web3ChatUITests" */;
-			buildPhases = (
-				75B5FA5D2D665FBE00E456DC /* Sources */,
-				75B5FA5E2D665FBE00E456DC /* Frameworks */,
-				75B5FA5F2D665FBE00E456DC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				75B5FA632D665FBE00E456DC /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				75B5FA642D665FBE00E456DC /* Web3ChatUITests */,
-			);
-			name = Web3ChatUITests;
-			packageProductDependencies = (
-			);
-			productName = Web3ChatUITests;
-			productReference = 75B5FA612D665FBE00E456DC /* Web3ChatUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		75B5FA3F2D665FBD00E456DC /* Project object */ = {
+		75C2CE142D6886810050B8FB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					75B5FA462D665FBD00E456DC = {
+					75C2CE1B2D6886810050B8FB = {
 						CreatedOnToolsVersion = 16.2;
 					};
-					75B5FA562D665FBE00E456DC = {
+					75C2CE2B2D6886830050B8FB = {
 						CreatedOnToolsVersion = 16.2;
-						TestTargetID = 75B5FA462D665FBD00E456DC;
-					};
-					75B5FA602D665FBE00E456DC = {
-						CreatedOnToolsVersion = 16.2;
-						TestTargetID = 75B5FA462D665FBD00E456DC;
+						TestTargetID = 75C2CE1B2D6886810050B8FB;
 					};
 				};
 			};
-			buildConfigurationList = 75B5FA422D665FBD00E456DC /* Build configuration list for PBXProject "Web3Chat" */;
+			buildConfigurationList = 75C2CE172D6886810050B8FB /* Build configuration list for PBXProject "Banter" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 75B5FA3E2D665FBD00E456DC;
+			mainGroup = 75C2CE132D6886810050B8FB;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */,
+				750DD2A02D68C57A000F28CB /* XCRemoteSwiftPackageReference "swift-sharing" */,
+			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 75B5FA482D665FBD00E456DC /* Products */;
+			productRefGroup = 75C2CE1D2D6886810050B8FB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				75B5FA462D665FBD00E456DC /* Web3Chat */,
-				75B5FA562D665FBE00E456DC /* Web3ChatTests */,
-				75B5FA602D665FBE00E456DC /* Web3ChatUITests */,
+				75C2CE1B2D6886810050B8FB /* Banter */,
+				75C2CE2B2D6886830050B8FB /* BanterTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		75B5FA452D665FBD00E456DC /* Resources */ = {
+		75C2CE1A2D6886810050B8FB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		75B5FA552D665FBE00E456DC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		75B5FA5F2D665FBE00E456DC /* Resources */ = {
+		75C2CE2A2D6886830050B8FB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -232,21 +202,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		75B5FA432D665FBD00E456DC /* Sources */ = {
+		75C2CE182D6886810050B8FB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		75B5FA532D665FBE00E456DC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		75B5FA5D2D665FBE00E456DC /* Sources */ = {
+		75C2CE282D6886830050B8FB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -256,20 +219,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		75B5FA592D665FBE00E456DC /* PBXTargetDependency */ = {
+		75C2CE2E2D6886830050B8FB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 75B5FA462D665FBD00E456DC /* Web3Chat */;
-			targetProxy = 75B5FA582D665FBE00E456DC /* PBXContainerItemProxy */;
-		};
-		75B5FA632D665FBE00E456DC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 75B5FA462D665FBD00E456DC /* Web3Chat */;
-			targetProxy = 75B5FA622D665FBE00E456DC /* PBXContainerItemProxy */;
+			target = 75C2CE1B2D6886810050B8FB /* Banter */;
+			targetProxy = 75C2CE2D2D6886830050B8FB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		75B5FA692D665FBE00E456DC /* Debug */ = {
+		75C2CE3E2D6886830050B8FB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -332,7 +290,7 @@
 			};
 			name = Debug;
 		};
-		75B5FA6A2D665FBE00E456DC /* Release */ = {
+		75C2CE3F2D6886830050B8FB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -388,14 +346,14 @@
 			};
 			name = Release;
 		};
-		75B5FA6C2D665FBE00E456DC /* Debug */ = {
+		75C2CE412D6886830050B8FB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Web3Chat/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Banter/Preview Content\"";
 				DEVELOPMENT_TEAM = UM3QPHF8E3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -404,12 +362,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.chenchik.Web3Chat;
+				PRODUCT_BUNDLE_IDENTIFIER = me.chenchik.Banter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -417,14 +376,14 @@
 			};
 			name = Debug;
 		};
-		75B5FA6D2D665FBE00E456DC /* Release */ = {
+		75C2CE422D6886830050B8FB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Web3Chat/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Banter/Preview Content\"";
 				DEVELOPMENT_TEAM = UM3QPHF8E3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -433,12 +392,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.chenchik.Web3Chat;
+				PRODUCT_BUNDLE_IDENTIFIER = me.chenchik.Banter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -446,7 +406,7 @@
 			};
 			name = Release;
 		};
-		75B5FA6F2D665FBE00E456DC /* Debug */ = {
+		75C2CE442D6886830050B8FB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -456,16 +416,16 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.chenchik.Web3ChatTests;
+				PRODUCT_BUNDLE_IDENTIFIER = me.chenchik.BanterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Web3Chat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Web3Chat";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Banter.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Banter";
 			};
 			name = Debug;
 		};
-		75B5FA702D665FBE00E456DC /* Release */ = {
+		75C2CE452D6886830050B8FB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -475,89 +435,88 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.chenchik.Web3ChatTests;
+				PRODUCT_BUNDLE_IDENTIFIER = me.chenchik.BanterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Web3Chat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Web3Chat";
-			};
-			name = Release;
-		};
-		75B5FA722D665FBE00E456DC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UM3QPHF8E3;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.chenchik.Web3ChatUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Web3Chat;
-			};
-			name = Debug;
-		};
-		75B5FA732D665FBE00E456DC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UM3QPHF8E3;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.chenchik.Web3ChatUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Web3Chat;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Banter.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Banter";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		75B5FA422D665FBD00E456DC /* Build configuration list for PBXProject "Web3Chat" */ = {
+		75C2CE172D6886810050B8FB /* Build configuration list for PBXProject "Banter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				75B5FA692D665FBE00E456DC /* Debug */,
-				75B5FA6A2D665FBE00E456DC /* Release */,
+				75C2CE3E2D6886830050B8FB /* Debug */,
+				75C2CE3F2D6886830050B8FB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		75B5FA6B2D665FBE00E456DC /* Build configuration list for PBXNativeTarget "Web3Chat" */ = {
+		75C2CE402D6886830050B8FB /* Build configuration list for PBXNativeTarget "Banter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				75B5FA6C2D665FBE00E456DC /* Debug */,
-				75B5FA6D2D665FBE00E456DC /* Release */,
+				75C2CE412D6886830050B8FB /* Debug */,
+				75C2CE422D6886830050B8FB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		75B5FA6E2D665FBE00E456DC /* Build configuration list for PBXNativeTarget "Web3ChatTests" */ = {
+		75C2CE432D6886830050B8FB /* Build configuration list for PBXNativeTarget "BanterTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				75B5FA6F2D665FBE00E456DC /* Debug */,
-				75B5FA702D665FBE00E456DC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		75B5FA712D665FBE00E456DC /* Build configuration list for PBXNativeTarget "Web3ChatUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				75B5FA722D665FBE00E456DC /* Debug */,
-				75B5FA732D665FBE00E456DC /* Release */,
+				75C2CE442D6886830050B8FB /* Debug */,
+				75C2CE452D6886830050B8FB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		750DD2A02D68C57A000F28CB /* XCRemoteSwiftPackageReference "swift-sharing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-sharing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.1;
+			};
+		};
+		75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Boilertalk/Web3.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.8;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		750DD2A22D68C59A000F28CB /* Sharing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 750DD2A02D68C57A000F28CB /* XCRemoteSwiftPackageReference "swift-sharing" */;
+			productName = Sharing;
+		};
+		750DD2AC2D68E092000F28CB /* Web3PromiseKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */;
+			productName = Web3PromiseKit;
+		};
+		75C2CE4A2D6886DA0050B8FB /* Web3 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */;
+			productName = Web3;
+		};
+		75C2CE4C2D6886DA0050B8FB /* Web3ContractABI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */;
+			productName = Web3ContractABI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 75B5FA3F2D665FBD00E456DC /* Project object */;
+	rootObject = 75C2CE142D6886810050B8FB /* Project object */;
 }
