@@ -1,0 +1,17 @@
+---
+description: Code Rules
+globs: 
+alwaysApply: true
+---
+- DI should be used where it's possible
+- All dependencies should be stated as protocols 
+- Clean Architecture must be used with clear separation between business logic and view logic
+- MVVM as architectural pattern should be used
+- You can use markdown but dont have to
+- Views should be grouped as features and should be in Scene folder
+- Design system should be used when possible
+- Unit Tests should be implemented for non-Views
+- Snapshot tests should be implemented for Views
+- SwiftUI should be used when possible
+- Environment objects should be avoided
+- Use @Observable for ViewModel instead of ObservedObject and attach it to view as @State
