@@ -33,7 +33,7 @@ func createChat(recipient: String) {
   firstly {
     web3.eth.getTransactionCount(address: callerKey.address, block: .latest)
   }.then { nonce in
-    let transaction = contract
+    try contract
       .createChat(recipient: recipient)
       .createTransaction(
         nonce: nonce,
@@ -45,16 +45,14 @@ func createChat(recipient: String) {
         value: 0,
         accessList: [:],
         transactionType: .eip1559
-      )
-    return try transaction!.sign(with: callerKey, chainId: .string(chainId)).promise
-  }.then { tx in
-    web3.eth.sendRawTransaction(transaction: tx)
-  }
-  .done { hash in
+      )!
+      .sign(with: callerKey, chainId: .string(chainId))
+      .promise
+  }.then { transaction in
+    web3.eth.sendRawTransaction(transaction: transaction)
+  }.done { hash in
     print("Created in transaction \(hash.hex())")
   }.catch { error in
     print("Error creating chat: \(error)")
   }
 }
-
-// 0xa3FC0c496185394F0baeAEA2518D63504eB23eFf

@@ -18,6 +18,8 @@ struct ChatInfo {
   let exists: Bool
 }
 
+
+
 protocol ChatListContractProtocol: EthereumContract {
   // Events
   static var ChatCreated: SolidityEvent { get }
@@ -57,18 +59,22 @@ extension ChatListContract {
     return SolidityEvent(name: "ChatCreated", anonymous: false, inputs: inputs)
   }
 
+  static var ChatInfo: SolidityType {
+    .tuple([
+      .address, // chatContract
+      .address, // author
+      .address, // recipient
+      .uint256, // createdAt
+      .bool // exists
+    ])
+  }
+
   func getUserChats() -> SolidityInvocation {
     let outputs = [
       SolidityFunctionParameter(
         name: "",
         type: .array(
-          type: .tuple([
-            .address,
-            .address,
-            .address,
-            .uint256,
-            .bool
-          ]),
+          type: ChatListContract.ChatInfo,
           length: nil
         )
       )
@@ -84,13 +90,7 @@ extension ChatListContract {
     let outputs = [
       SolidityFunctionParameter(
         name: "",
-        type: .tuple([
-          .address, // chatContract
-          .address, // author
-          .address, // recipient
-          .uint256, // createdAt
-          .bool // exists
-        ])
+        type: ChatListContract.ChatInfo
       )
     ]
     let method = SolidityConstantFunction(
