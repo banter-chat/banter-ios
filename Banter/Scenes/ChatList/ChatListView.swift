@@ -1,4 +1,4 @@
-// ChatListView.swift is a part of Web3Chat project
+// ChatListView.swift is a part of Banter project
 //
 // Created by Andrei Chenchik (andrei@chenchik.me), 19/2/25
 // Copyright © 2025 Andrei Chenchik, Inc. All rights reserved.
