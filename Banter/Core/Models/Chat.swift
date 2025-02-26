@@ -7,6 +7,6 @@
 //
 
 struct Chat: Identifiable {
-  var id: String { address }
-  var address: String
+  var id: String
+  var title: String?
 }

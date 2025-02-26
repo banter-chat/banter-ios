@@ -32,7 +32,7 @@ final class ChatListModel {
     isSubscribed = true
     getChats { [weak self] newChat in
       DispatchQueue.main.async {
-        let chat = Chat(address: newChat)
+        let chat = Chat(id: newChat)
         self?.chats.append(chat)
       }
     }

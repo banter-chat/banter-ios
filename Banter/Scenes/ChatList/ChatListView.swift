@@ -31,8 +31,11 @@ struct ChatListView: View {
 
       Section("Conversations") {
         ForEach(model.chats) { chat in
-          NavigationLink(chat.address, destination: ChatView(chatAddress: chat.address))
-            .lineLimit(1)
+          NavigationLink(
+            chat.title ?? chat.id,
+            destination: ChatView(chatAddress: chat.id)
+          )
+          .lineLimit(1)
         }
       }
     }
