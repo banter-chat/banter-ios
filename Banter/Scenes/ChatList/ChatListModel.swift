@@ -10,6 +10,25 @@ import Sharing
 import SwiftUI
 import Web3
 
+struct MockRepo: ChatRepository {
+  func getChats() -> [Chat] {
+    [
+      Chat(id: "1", title: "Chat 1"),
+      Chat(id: "2", title: "Chat 2")
+    ]
+  }
+}
+
+struct ChatDisplay {
+  var id: String
+  var content: String
+
+  init(chat: Chat) {
+    self.id = chat.id
+    self.content = chat.title ?? ""
+  }
+}
+
 @Observable
 final class ChatListModel {
   @ObservationIgnored @Shared(.walletKeyHex) var walletKeyHex
@@ -32,7 +51,7 @@ final class ChatListModel {
     isSubscribed = true
     getChats { [weak self] newChat in
       DispatchQueue.main.async {
-        let chat = Chat(address: newChat)
+        let chat = Chat(id: newChat)
         self?.chats.append(chat)
       }
     }
