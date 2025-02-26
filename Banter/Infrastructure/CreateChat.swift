@@ -22,7 +22,7 @@ func createChat(recipient: String) {
     let contractAddress = try? EthereumAddress(hex: chatListAddress, eip55: false),
     let callerKey = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex),
     let recipient = try? EthereumAddress(hex: recipient, eip55: false),
-    !chainId.isEmpty
+    !chainId.isEmpty, let chainId = Int(chainId), let chainId = BigUInt(exactly: chainId)
   else { return }
 
   let contract = web3.eth.Contract(
@@ -46,7 +46,10 @@ func createChat(recipient: String) {
         accessList: [:],
         transactionType: .eip1559
       )!
-      .sign(with: callerKey, chainId: .string(chainId))
+      .sign(
+        with: callerKey,
+        chainId: EthereumQuantity(quantity: chainId)
+      )
       .promise
   }.then { transaction in
     web3.eth.sendRawTransaction(transaction: transaction)
