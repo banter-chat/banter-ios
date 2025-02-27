@@ -6,7 +6,8 @@
 // Proprietary and confidential
 //
 
+import Foundation
+
 protocol MessageRepository {
-  func getMessages(id: Chat.ID) async throws -> [ChatMessage]
-  // messagesStream(id: Chat.ID) async throws -> AsyncSequence<[ChatMessage]>
+  func getMessages(before: Date?, limit: Int) async throws -> [ChatMessage]
 }
