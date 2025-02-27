@@ -45,4 +45,48 @@ protocol MessageRepository {
   ///
   /// - Throws: An error if the retrieval operation fails.
   func getMessages(before: Date?, limit: Int) async throws -> [ChatMessage]
+
+  /// Provides a stream of real-time message updates for this chat.
+  ///
+  /// This method returns an `AsyncStream` that emits events whenever a message is added to the chat.
+  /// The stream continues until it's explicitly cancelled or the associated task is cancelled.
+  ///
+  /// - Returns: An `AsyncStream` of `MessageUpdate` events. Currently, this includes message additions,
+  ///   with support for future update types like edits and deletions.
+  ///
+  /// ## Example
+  ///
+  /// ```swift
+  /// let repository: MessageRepository = /* repository implementation */
+  ///
+  /// // Start observing updates
+  /// let task = Task {
+  ///     for await update in repository.observeMessageUpdates() {
+  ///         switch update {
+  ///         case .added(let message):
+  ///             // Handle the new message
+  ///             print("New message received: \(message.content)")
+  ///         }
+  ///     }
+  /// }
+  ///
+  /// // Later, cancel the observation
+  /// task.cancel()
+  /// ```
+  func observeMessageUpdates() -> AsyncStream<MessageUpdate>
+}
+
+/// Represents types of updates that can occur to messages in a chat.
+///
+/// This enum defines the various types of message events that can be observed
+/// through the `observeMessageUpdates` method.
+enum MessageUpdate {
+  /// Indicates that a new message was added to the chat.
+  ///
+  /// - Parameter message: The new message that was added.
+  case added(message: ChatMessage)
+  // Future expansion:
+  // case edited(message: Message)
+  // case deleted(messageId: String)
+  // case statusChanged(messageId: String, status: MessageStatus)
 }
