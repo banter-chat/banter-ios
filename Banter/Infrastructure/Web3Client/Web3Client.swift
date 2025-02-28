@@ -6,7 +6,7 @@
 // Proprietary and confidential
 //
 
-import Foundation
+import ConcurrencyExtras
 import Web3
 import Web3ContractABI
 import Web3PromiseKit
@@ -45,32 +45,15 @@ extension Web3Client {
   }
 }
 
-final class BasicWeb3Client: Web3Client {
-  let ethAPI: Web3.Eth
+struct BasicWeb3Client: Web3Client {
+  let web3: Web3AsyncAdapter
   let chainId: UInt64
 
-  let builder: Web3TransactionBuilding
-  let estimator: Web3FeesEstimator
-
-  init(
-    ethAPI: Web3.Eth,
-    chainId: UInt64,
-    builder: Web3TransactionBuilding = Web3TransactionBuilder(),
-    estimator: Web3FeesEstimator = BasicWeb3FeesEstimator()
-  ) {
-    self.ethAPI = ethAPI
-    self.chainId = chainId
-    self.builder = builder
-    self.estimator = estimator
-  }
+  var builder: Web3TransactionBuilding = Web3TransactionBuilder()
+  var estimator: Web3FeesEstimator = BasicWeb3FeesEstimator()
 
   func call(_ invocation: SolidityInvocation) async throws -> [String: Any] {
-    try await asyncWrapper { callback in
-      invocation.call { data, error in
-        let result = getResult(data, error)
-        callback(result)
-      }
-    }
+    try await web3.call(invocation)
   }
 
   func send(
@@ -78,9 +61,9 @@ final class BasicWeb3Client: Web3Client {
     value: EthereumQuantity = 0,
     key: Web3WalletKey
   ) async throws {
-    async let nonce = try await getTransactionsCount(for: key.address)
-    async let prices = try await estimator.estimateFees(api: ethAPI)
-    async let gasLimit = try await estimate(invocation: invocation)
+    async let nonce = try await web3.getTransactionCount(for: key.address)
+    async let prices = try await estimator.estimateFees(web3: web3)
+    async let gasLimit = try await web3.estimateGas(invocation: invocation)
 
     let transaction = try await builder.build(invocation,
                                               sender: key.address,
@@ -90,7 +73,7 @@ final class BasicWeb3Client: Web3Client {
                                               gasLimit: gasLimit)
 
     let signedTransaction = try key.sign(transaction, chainId: chainId)
-    try await execute(transaction: signedTransaction)
+    _ = try await web3.sendRawTransaction(transaction: signedTransaction)
   }
 
   func find(
@@ -99,79 +82,20 @@ final class BasicWeb3Client: Web3Client {
     from: EthereumQuantityTag,
     to: EthereumQuantityTag
   ) async throws -> [[String: Any]] {
-    try await asyncWrapper { callback in
-      self.ethAPI.getLogs(
-        addresses: [contractAddress], topics: nil, fromBlock: from, toBlock: to
-      ) { resp in
-        let logs = resp.result ?? []
-        let events = logs.compactMap { try? ABI.decodeLog(event: event, from: $0) }
-        let result = getResult(events, resp.error)
-        callback(result)
-      }
-    }
+    let logs = try await web3.getLogs(addresses: [contractAddress],
+                                      topics: nil,
+                                      fromBlock: from,
+                                      toBlock: to)
+
+    return logs.compactMap { try? ABI.decodeLog(event: event, from: $0) }
   }
 
   func subscribe(
     contractAddress: EthereumAddress,
     event: SolidityEvent
   ) -> AsyncThrowingStream<[String: Any], Error> {
-    AsyncThrowingStream { continuation in
-      var ongoingSubscriptionId: String?
-
-      try? ethAPI.subscribeToLogs(addresses: [contractAddress]) { response in
-        switch response.status {
-        case let .failure(error):
-          continuation.finish(throwing: error)
-        case let .success(subscriptionId):
-          ongoingSubscriptionId = subscriptionId
-        }
-      } onEvent: { log in
-        switch log.status {
-        case let .failure(error):
-          continuation.finish(throwing: error)
-        case let .success(log):
-          if let event = try? ABI.decodeLog(event: event, from: log) {
-            continuation.yield(event)
-          }
-        }
-      }
-
-      continuation.onTermination = { [ongoingSubscriptionId] _ in
-        if let ongoingSubscriptionId {
-          try? self.ethAPI.unsubscribe(subscriptionId: ongoingSubscriptionId) { _ in }
-        }
-      }
-    }
-  }
-
-  private func execute(transaction: EthereumSignedTransaction) async throws {
-    try await asyncWrapper { callback in
-      try self.ethAPI.sendRawTransaction(transaction: transaction) {
-        let result = getResult($0.result, $0.error)
-        callback(result)
-      }
-    }
-  }
-
-  private func estimate(
-    invocation: SolidityInvocation
-  ) async throws -> EthereumQuantity {
-    try await asyncWrapper { callback in
-      invocation.estimateGas { data, error in
-        let result = getResult(data, error)
-        callback(result)
-      }
-    }
-  }
-
-  private func getTransactionsCount(
-    for address: EthereumAddress
-  ) async throws -> EthereumQuantity {
-    try await asyncWrapper { callback in
-      self.ethAPI.getTransactionCount(address: address, block: .latest) {
-        let result = getResult($0.result, $0.error)
-        callback(result)
-      }
-    }
+    let stream = web3.subscribeToLogs(addresses: [contractAddress])
+    let eventsStream = stream.compactMap { try? ABI.decodeLog(event: event, from: $0) }
+    return UncheckedSendable(eventsStream).eraseToThrowingStream()
   }
 }

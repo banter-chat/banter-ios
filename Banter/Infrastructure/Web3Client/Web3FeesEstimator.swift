@@ -7,10 +7,9 @@
 //
 
 import Web3
-import Web3ContractABI
 
 protocol Web3FeesEstimator {
-  func estimateFees(api: Web3.Eth) async throws -> Fees
+  func estimateFees(web3: Web3AsyncAdapter) async throws -> Fees
 }
 
 struct Fees {
@@ -19,19 +18,12 @@ struct Fees {
 }
 
 struct BasicWeb3FeesEstimator: Web3FeesEstimator {
-  func estimateFees(api: Web3.Eth) async throws -> Fees {
-    Fees(
-      maxFeePerGas: try await getGasPrice(api),
+  func estimateFees(web3: Web3AsyncAdapter) async throws -> Fees {
+    let gasPrice = try await web3.gasPrice()
+
+    return Fees(
+      maxFeePerGas: gasPrice,
       maxPriorityFeePerGas: EthereumQuantity(quantity: 1.gwei)
     )
-  }
-
-  private func getGasPrice(_ api: Web3.Eth) async throws -> EthereumQuantity {
-    try await asyncWrapper { callback in
-      api.gasPrice {
-        let result = getResult($0.result, $0.error)
-        callback(result)
-      }
-    }
   }
 }

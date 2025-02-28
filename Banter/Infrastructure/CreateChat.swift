@@ -25,10 +25,12 @@ func createChat(recipient: String) {
     let chainId = UInt64(chainId)
   else { return }
 
-  let contract = web3.eth.Contract(type: ChatListContract.self,
-                                   address: contractAddress)
+  let web3Wrapper = Web3AsyncAdapter(web3: web3)
 
-  let client = BasicWeb3Client(ethAPI: web3.eth, chainId: chainId)
+  let contract = web3Wrapper.createContract(type: ChatListContract.self,
+                                            address: contractAddress)
+
+  let client = BasicWeb3Client(web3: web3Wrapper, chainId: chainId)
   let key = BasicWeb3WalletKey(privateKey: callerKey)
   let invocation = contract.createChat(recipient: recipient)
 
