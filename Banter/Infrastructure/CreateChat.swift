@@ -22,40 +22,21 @@ func createChat(recipient: String) {
     let contractAddress = try? EthereumAddress(hex: chatListAddress, eip55: false),
     let callerKey = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex),
     let recipient = try? EthereumAddress(hex: recipient, eip55: false),
-    !chainId.isEmpty, let chainId = Int(chainId), let chainId = BigUInt(exactly: chainId)
+    let chainId = UInt64(chainId)
   else { return }
 
-  let contract = web3.eth.Contract(
-    type: ChatListContract.self,
-    address: contractAddress
-  )
+  let contract = web3.eth.Contract(type: ChatListContract.self,
+                                   address: contractAddress)
 
-  firstly {
-    web3.eth.getTransactionCount(address: callerKey.address, block: .latest)
-  }.then { nonce in
-    try contract
-      .createChat(recipient: recipient)
-      .createTransaction(
-        nonce: nonce,
-        gasPrice: EthereumQuantity(quantity: 21.gwei),
-        maxFeePerGas: EthereumQuantity(quantity: 21.gwei),
-        maxPriorityFeePerGas: EthereumQuantity(quantity: 21.gwei),
-        gasLimit: 1_000_000,
-        from: callerKey.address,
-        value: 0,
-        accessList: [:],
-        transactionType: .eip1559
-      )!
-      .sign(
-        with: callerKey,
-        chainId: EthereumQuantity(quantity: chainId)
-      )
-      .promise
-  }.then { transaction in
-    web3.eth.sendRawTransaction(transaction: transaction)
-  }.done { hash in
-    print("Created in transaction \(hash.hex())")
-  }.catch { error in
-    print("Error creating chat: \(error)")
+  let client = BasicWeb3Client(ethAPI: web3.eth, chainId: chainId)
+  let key = BasicWeb3WalletKey(privateKey: callerKey)
+  let invocation = contract.createChat(recipient: recipient)
+
+  Task {
+    do {
+      try await client.send(invocation, key: key)
+    } catch {
+      print("Error creating chat: \(error)")
+    }
   }
 }

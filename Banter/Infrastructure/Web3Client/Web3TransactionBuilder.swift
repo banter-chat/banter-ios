@@ -32,7 +32,7 @@ struct Web3TransactionBuilder: Web3TransactionBuilding {
     guard let transaction = invocation
       .createTransaction(
         nonce: nonce,
-        gasPrice: prices.gasPrice,
+        gasPrice: nil,
         maxFeePerGas: prices.maxFeePerGas,
         maxPriorityFeePerGas: prices.maxPriorityFeePerGas,
         gasLimit: gasLimit,

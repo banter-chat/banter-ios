@@ -50,13 +50,13 @@ final class BasicWeb3Client: Web3Client {
   let chainId: UInt64
 
   let builder: Web3TransactionBuilding
-  let estimator: Web3FeesEstimation
+  let estimator: Web3FeesEstimator
 
   init(
     ethAPI: Web3.Eth,
     chainId: UInt64,
     builder: Web3TransactionBuilding = Web3TransactionBuilder(),
-    estimator: Web3FeesEstimation = Web3FeesEstimator()
+    estimator: Web3FeesEstimator = BasicWeb3FeesEstimator()
   ) {
     self.ethAPI = ethAPI
     self.chainId = chainId

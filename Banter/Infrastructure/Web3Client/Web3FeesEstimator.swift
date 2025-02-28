@@ -9,28 +9,20 @@
 import Web3
 import Web3ContractABI
 
-protocol Web3FeesEstimation {
+protocol Web3FeesEstimator {
   func estimateFees(api: Web3.Eth) async throws -> Fees
 }
 
 struct Fees {
-  let gasPrice: EthereumQuantity
   let maxFeePerGas: EthereumQuantity
   let maxPriorityFeePerGas: EthereumQuantity
 }
 
-struct Web3FeesEstimator: Web3FeesEstimation {
+struct BasicWeb3FeesEstimator: Web3FeesEstimator {
   func estimateFees(api: Web3.Eth) async throws -> Fees {
-    let gasPrice = try await getGasPrice(api)
-    let quantity = gasPrice.quantity
-    let maxFee = quantity * BigUInt(exactly: 110)! / BigUInt(exactly: 100)!
-    let maxPriority = quantity * BigUInt(exactly: 10)! / BigUInt(exactly: 100)!
-    let maxTip = min(maxPriority, 1.gwei)
-
-    return Fees(
-      gasPrice: gasPrice,
-      maxFeePerGas: EthereumQuantity(quantity: maxFee),
-      maxPriorityFeePerGas: EthereumQuantity(quantity: maxTip)
+    Fees(
+      maxFeePerGas: try await getGasPrice(api),
+      maxPriorityFeePerGas: EthereumQuantity(quantity: 1.gwei)
     )
   }
 
