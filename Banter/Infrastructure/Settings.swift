@@ -35,3 +35,10 @@ extension SharedReaderKey
     Self[.appStorage("walletKeyHex"), default: ""]
   }
 }
+
+extension SharedReaderKey
+  where Self == AppStorageKey<String>.Default {
+  static var userAdressKeyHex: Self {
+    Self[.appStorage("userAdressKeyHex"), default: ""]
+  }
+}

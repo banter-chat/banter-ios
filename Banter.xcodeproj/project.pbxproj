@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		750DD2A32D68C59A000F28CB /* Sharing in Frameworks */ = {isa = PBXBuildFile; productRef = 750DD2A22D68C59A000F28CB /* Sharing */; };
-		750DD2AD2D68E092000F28CB /* Web3PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 750DD2AC2D68E092000F28CB /* Web3PromiseKit */; };
-		75C2CE4B2D6886DA0050B8FB /* Web3 in Frameworks */ = {isa = PBXBuildFile; productRef = 75C2CE4A2D6886DA0050B8FB /* Web3 */; };
-		75C2CE4D2D6886DA0050B8FB /* Web3ContractABI in Frameworks */ = {isa = PBXBuildFile; productRef = 75C2CE4C2D6886DA0050B8FB /* Web3ContractABI */; };
+		A8433E532D70625300FFCCD0 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = A8433E522D70625300FFCCD0 /* MessageKit */; };
+		A8433E552D70625300FFCCD0 /* Sharing in Frameworks */ = {isa = PBXBuildFile; productRef = A8433E542D70625300FFCCD0 /* Sharing */; };
+		A8433E572D70625300FFCCD0 /* Web3 in Frameworks */ = {isa = PBXBuildFile; productRef = A8433E562D70625300FFCCD0 /* Web3 */; };
+		A8433E592D70625300FFCCD0 /* Web3ContractABI in Frameworks */ = {isa = PBXBuildFile; productRef = A8433E582D70625300FFCCD0 /* Web3ContractABI */; };
+		A8433E5B2D70625300FFCCD0 /* Web3PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = A8433E5A2D70625300FFCCD0 /* Web3PromiseKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,10 +47,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				750DD2A32D68C59A000F28CB /* Sharing in Frameworks */,
-				75C2CE4D2D6886DA0050B8FB /* Web3ContractABI in Frameworks */,
-				750DD2AD2D68E092000F28CB /* Web3PromiseKit in Frameworks */,
-				75C2CE4B2D6886DA0050B8FB /* Web3 in Frameworks */,
+				A8433E572D70625300FFCCD0 /* Web3 in Frameworks */,
+				A8433E532D70625300FFCCD0 /* MessageKit in Frameworks */,
+				A8433E592D70625300FFCCD0 /* Web3ContractABI in Frameworks */,
+				A8433E5B2D70625300FFCCD0 /* Web3PromiseKit in Frameworks */,
+				A8433E552D70625300FFCCD0 /* Sharing in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,10 +111,11 @@
 			);
 			name = Banter;
 			packageProductDependencies = (
-				75C2CE4A2D6886DA0050B8FB /* Web3 */,
-				75C2CE4C2D6886DA0050B8FB /* Web3ContractABI */,
-				750DD2A22D68C59A000F28CB /* Sharing */,
-				750DD2AC2D68E092000F28CB /* Web3PromiseKit */,
+				A8433E522D70625300FFCCD0 /* MessageKit */,
+				A8433E542D70625300FFCCD0 /* Sharing */,
+				A8433E562D70625300FFCCD0 /* Web3 */,
+				A8433E582D70625300FFCCD0 /* Web3ContractABI */,
+				A8433E5A2D70625300FFCCD0 /* Web3PromiseKit */,
 			);
 			productName = Banter;
 			productReference = 75C2CE1C2D6886810050B8FB /* Banter.app */;
@@ -170,8 +173,9 @@
 			mainGroup = 75C2CE132D6886810050B8FB;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */,
-				750DD2A02D68C57A000F28CB /* XCRemoteSwiftPackageReference "swift-sharing" */,
+				A8433E4F2D7061B600FFCCD0 /* XCRemoteSwiftPackageReference "MessageKit" */,
+				A8433E502D7061D200FFCCD0 /* XCRemoteSwiftPackageReference "swift-sharing" */,
+				A8433E512D7061FF00FFCCD0 /* XCRemoteSwiftPackageReference "Web3" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 75C2CE1D2D6886810050B8FB /* Products */;
@@ -354,7 +358,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Banter/Preview Content\"";
-				DEVELOPMENT_TEAM = UM3QPHF8E3;
+				DEVELOPMENT_TEAM = 6H9J2DH62C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -362,7 +366,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -384,7 +388,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Banter/Preview Content\"";
-				DEVELOPMENT_TEAM = UM3QPHF8E3;
+				DEVELOPMENT_TEAM = 6H9J2DH62C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -392,7 +396,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -477,17 +481,25 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		750DD2A02D68C57A000F28CB /* XCRemoteSwiftPackageReference "swift-sharing" */ = {
+		A8433E4F2D7061B600FFCCD0 /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MessageKit/MessageKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		A8433E502D7061D200FFCCD0 /* XCRemoteSwiftPackageReference "swift-sharing" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-sharing";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.3.1;
+				minimumVersion = 2.3.3;
 			};
 		};
-		75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */ = {
+		A8433E512D7061FF00FFCCD0 /* XCRemoteSwiftPackageReference "Web3" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Boilertalk/Web3.swift.git";
+			repositoryURL = "https://github.com/Boilertalk/Web3.swift";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.8.8;
@@ -496,25 +508,30 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		750DD2A22D68C59A000F28CB /* Sharing */ = {
+		A8433E522D70625300FFCCD0 /* MessageKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 750DD2A02D68C57A000F28CB /* XCRemoteSwiftPackageReference "swift-sharing" */;
+			package = A8433E4F2D7061B600FFCCD0 /* XCRemoteSwiftPackageReference "MessageKit" */;
+			productName = MessageKit;
+		};
+		A8433E542D70625300FFCCD0 /* Sharing */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A8433E502D7061D200FFCCD0 /* XCRemoteSwiftPackageReference "swift-sharing" */;
 			productName = Sharing;
 		};
-		750DD2AC2D68E092000F28CB /* Web3PromiseKit */ = {
+		A8433E562D70625300FFCCD0 /* Web3 */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */;
-			productName = Web3PromiseKit;
-		};
-		75C2CE4A2D6886DA0050B8FB /* Web3 */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */;
+			package = A8433E512D7061FF00FFCCD0 /* XCRemoteSwiftPackageReference "Web3" */;
 			productName = Web3;
 		};
-		75C2CE4C2D6886DA0050B8FB /* Web3ContractABI */ = {
+		A8433E582D70625300FFCCD0 /* Web3ContractABI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */;
+			package = A8433E512D7061FF00FFCCD0 /* XCRemoteSwiftPackageReference "Web3" */;
 			productName = Web3ContractABI;
+		};
+		A8433E5A2D70625300FFCCD0 /* Web3PromiseKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A8433E512D7061FF00FFCCD0 /* XCRemoteSwiftPackageReference "Web3" */;
+			productName = Web3PromiseKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

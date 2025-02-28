@@ -32,7 +32,7 @@ struct ChatDisplay {
 @Observable
 final class ChatListModel {
   @ObservationIgnored @Shared(.walletKeyHex) var walletKeyHex
-
+    private let mock = MockRepo()
   var chats: [Chat] = []
   var isSubscribed = false
   var newChatAddress = ""
@@ -46,15 +46,19 @@ final class ChatListModel {
     UIPasteboard.general.string = walletAddress
   }
 
+    /// Вернул чаты из мок
+    /// Получение из блока пока закоментил, потом когда вся логика
+    /// будет готова останется ее тут прописать
   func viewAppeared() {
-    guard !isSubscribed else { return }
-    isSubscribed = true
-    getChats { [weak self] newChat in
-      DispatchQueue.main.async {
-        let chat = Chat(id: newChat)
-        self?.chats.append(chat)
-      }
-    }
+      self.chats = mock.getChats()
+//    guard !isSubscribed else { return }
+//    isSubscribed = true
+//    getChats { [weak self] newChat in
+//      DispatchQueue.main.async {
+//        let chat = Chat(id: newChat)
+//        self?.chats.append(chat)
+//      }
+//    }
   }
 
   func createNewChat() {

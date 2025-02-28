@@ -10,3 +10,4 @@ protocol ChatRepository {
   func getChats() async throws -> [Chat]
   // chatStream() async throws -> AsyncSequence<[Chat]>
 }
+

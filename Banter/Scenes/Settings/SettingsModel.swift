@@ -16,6 +16,7 @@ final class SettingsModel: ObservableObject {
   @ObservationIgnored @Shared(.chainId) var chainId
   @ObservationIgnored @Shared(.chatListAddress) var chatListAddress
   @ObservationIgnored @Shared(.walletKeyHex) var walletKeyHex
+    @ObservationIgnored @Shared(.userAdressKeyHex) var userAdressKeyHex
 
   var isReadyToChat: Bool {
     !rpcWSURL.isEmpty
@@ -26,16 +27,21 @@ final class SettingsModel: ObservableObject {
   }
 
   var walletAddress: String? {
-    let key = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex)
-    return key?.address.hex(eip55: true)
+      guard let key = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex) else {
+          return nil
+      }
+    $userAdressKeyHex.withLock { $0 = key.hex() }
+    return key.address.hex(eip55: true)
   }
 
   func copyWalletAddressTapped() {
     UIPasteboard.general.string = walletAddress
+      print(walletAddress)
   }
 
   func generateNewAddressTapped() {
     guard let key = try? EthereumPrivateKey() else { return }
     $walletKeyHex.withLock { $0 = key.hex() }
   }
+    
 }
