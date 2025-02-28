@@ -13,7 +13,9 @@ import Web3PromiseKit
 
 protocol Web3Client {
   func call(_ invocation: SolidityInvocation) async throws -> [String: Any]
-  func send(_ invocation: SolidityInvocation, value: EthereumQuantity) async throws
+  func send(
+    _ invocation: SolidityInvocation, value: EthereumQuantity, key: Web3WalletKey
+  ) async throws
 
   func find(
     contractAddress: EthereumAddress,
@@ -29,8 +31,8 @@ protocol Web3Client {
 }
 
 extension Web3Client {
-  func send(_ invocation: SolidityInvocation) async throws {
-    try await send(invocation, value: 0)
+  func send(_ invocation: SolidityInvocation, key: Web3WalletKey) async throws {
+    try await send(invocation, value: 0, key: key)
   }
 
   func find(
@@ -43,13 +45,24 @@ extension Web3Client {
   }
 }
 
-struct BasicWeb3Client: Web3Client {
+final class BasicWeb3Client: Web3Client {
   let ethAPI: Web3.Eth
   let chainId: UInt64
 
-  let wallet: Web3Wallet
   let builder: Web3TransactionBuilding
   let estimator: Web3FeesEstimation
+
+  init(
+    ethAPI: Web3.Eth,
+    chainId: UInt64,
+    builder: Web3TransactionBuilding = Web3TransactionBuilder(),
+    estimator: Web3FeesEstimation = Web3FeesEstimator()
+  ) {
+    self.ethAPI = ethAPI
+    self.chainId = chainId
+    self.builder = builder
+    self.estimator = estimator
+  }
 
   func call(_ invocation: SolidityInvocation) async throws -> [String: Any] {
     try await asyncWrapper { callback in
@@ -60,19 +73,23 @@ struct BasicWeb3Client: Web3Client {
     }
   }
 
-  func send(_ invocation: SolidityInvocation, value: EthereumQuantity = 0) async throws {
-    async let nonce = try await wallet.getNonce(api: ethAPI)
+  func send(
+    _ invocation: SolidityInvocation,
+    value: EthereumQuantity = 0,
+    key: Web3WalletKey
+  ) async throws {
+    async let nonce = try await getTransactionsCount(for: key.address)
     async let prices = try await estimator.estimateFees(api: ethAPI)
     async let gasLimit = try await estimate(invocation: invocation)
 
     let transaction = try await builder.build(invocation,
-                                              sender: wallet.address,
+                                              sender: key.address,
                                               value: value,
                                               nonce: nonce,
                                               prices: prices,
                                               gasLimit: gasLimit)
 
-    let signedTransaction = try wallet.sign(transaction, chainId: chainId)
+    let signedTransaction = try key.sign(transaction, chainId: chainId)
     try await execute(transaction: signedTransaction)
   }
 
@@ -83,7 +100,7 @@ struct BasicWeb3Client: Web3Client {
     to: EthereumQuantityTag
   ) async throws -> [[String: Any]] {
     try await asyncWrapper { callback in
-      ethAPI.getLogs(
+      self.ethAPI.getLogs(
         addresses: [contractAddress], topics: nil, fromBlock: from, toBlock: to
       ) { resp in
         let logs = resp.result ?? []
@@ -121,7 +138,7 @@ struct BasicWeb3Client: Web3Client {
 
       continuation.onTermination = { [ongoingSubscriptionId] _ in
         if let ongoingSubscriptionId {
-          try? ethAPI.unsubscribe(subscriptionId: ongoingSubscriptionId) { _ in }
+          try? self.ethAPI.unsubscribe(subscriptionId: ongoingSubscriptionId) { _ in }
         }
       }
     }
@@ -129,7 +146,7 @@ struct BasicWeb3Client: Web3Client {
 
   private func execute(transaction: EthereumSignedTransaction) async throws {
     try await asyncWrapper { callback in
-      try ethAPI.sendRawTransaction(transaction: transaction) {
+      try self.ethAPI.sendRawTransaction(transaction: transaction) {
         let result = getResult($0.result, $0.error)
         callback(result)
       }
@@ -142,6 +159,17 @@ struct BasicWeb3Client: Web3Client {
     try await asyncWrapper { callback in
       invocation.estimateGas { data, error in
         let result = getResult(data, error)
+        callback(result)
+      }
+    }
+  }
+
+  private func getTransactionsCount(
+    for address: EthereumAddress
+  ) async throws -> EthereumQuantity {
+    try await asyncWrapper { callback in
+      self.ethAPI.getTransactionCount(address: address, block: .latest) {
+        let result = getResult($0.result, $0.error)
         callback(result)
       }
     }

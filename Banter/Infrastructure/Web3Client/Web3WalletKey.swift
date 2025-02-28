@@ -1,4 +1,4 @@
-// Web3Wallet.swift is a part of Banter project
+// Web3WalletKey.swift is a part of Banter project
 //
 // Created by Andrei Chenchik (andrei@chenchik.me), 27/2/25
 // Copyright © 2025 Andrei Chenchik, Inc. All rights reserved.
@@ -8,27 +8,17 @@
 
 import Web3
 
-protocol Web3Wallet {
+protocol Web3WalletKey {
   var address: EthereumAddress { get }
 
-  func getNonce(api: Web3.Eth) async throws -> EthereumQuantity
   func sign(
     _ transaction: EthereumTransaction, chainId: UInt64
   ) throws -> EthereumSignedTransaction
 }
 
-struct BasicWeb3Wallet: Web3Wallet {
+struct BasicWeb3WalletKey: Web3WalletKey {
   let privateKey: EthereumPrivateKey
   var address: EthereumAddress { privateKey.address }
-
-  func getNonce(api: Web3.Eth) async throws -> EthereumQuantity {
-    try await asyncWrapper { callback in
-      api.getTransactionCount(address: address, block: .latest) {
-        let result = getResult($0.result, $0.error)
-        callback(result)
-      }
-    }
-  }
 
   func sign(
     _ transaction: EthereumTransaction, chainId: UInt64
