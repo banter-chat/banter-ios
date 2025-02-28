@@ -15,3 +15,5 @@ alwaysApply: true
 - SwiftUI should be used when possible
 - Environment objects should be avoided
 - Use @Observable for ViewModel instead of ObservedObject and attach it to view as @State
+- Test should be added for every piece of functionality added
+- When writing tests make sure to test them by running `just test-client` before passing to the user 

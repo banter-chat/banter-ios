@@ -27,8 +27,7 @@ func createChat(recipient: String) {
 
   let web3Wrapper = Web3AsyncAdapter(web3: web3)
 
-  let contract = web3Wrapper.createContract(type: ChatListContract.self,
-                                            address: contractAddress)
+  let contract = ChatListContract(address: contractAddress, eth: web3.eth)
 
   let client = BasicWeb3Client(web3: web3Wrapper, chainId: chainId)
   let key = BasicWeb3WalletKey(privateKey: callerKey)

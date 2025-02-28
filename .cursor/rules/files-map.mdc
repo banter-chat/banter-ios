@@ -1,0 +1,12 @@
+---
+description: Files location map
+globs: 
+alwaysApply: true
+---
+/Banter: sources
+/Banter/Infrastructure: infrastructure layer
+/Banter/Core: domain level
+/Banter/Core/Models: domain models
+/Banter/Core/Domain: domain logic
+/Banter/Scenes: ui layer by features
+/BanterTests: tests with folders for every object

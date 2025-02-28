@@ -14,10 +14,6 @@ import Web3PromiseKit
 struct Web3AsyncAdapter {
   let web3: Web3
 
-  func createContract<T: StaticContract>(type: T.Type, address: EthereumAddress) -> T {
-    web3.eth.Contract(type: type, address: address)
-  }
-
   func call(_ invocation: SolidityInvocation) async throws -> [String: Any] {
     let result = await asyncWrapper { callback in
       invocation.call { data, error in
