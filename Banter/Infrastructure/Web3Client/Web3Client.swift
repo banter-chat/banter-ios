@@ -46,7 +46,7 @@ extension Web3Client {
 }
 
 struct BasicWeb3Client: Web3Client {
-  let web3: Web3AsyncAdapter
+  let web3: Web3Async
   let chainId: UInt64
 
   var builder: Web3TransactionBuilding = Web3TransactionBuilder()

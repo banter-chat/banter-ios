@@ -11,18 +11,43 @@ import Web3
 import Web3ContractABI
 import Web3PromiseKit
 
-extension Web3AsyncAdapter {
-  func call(_ invocation: SolidityInvocation) async throws -> [String: Any] {
-    try await call(invocation)
-  }
+protocol Web3Async {
+  func getTransactionCount(
+    for address: EthereumAddress, block: EthereumQuantityTag
+  ) async throws -> EthereumQuantity
+
+  func gasPrice() async throws -> EthereumQuantity
+
+  func estimateGas(
+    invocation: SolidityInvocation,
+    from: EthereumAddress?,
+    gas: EthereumQuantity?,
+    value: EthereumQuantity?
+  ) async throws -> EthereumQuantity
+
+  func call(_ invocation: SolidityInvocation) async throws -> [String: Any]
+
+  func sendRawTransaction(
+    transaction: EthereumSignedTransaction
+  ) async throws -> EthereumData
 
   func getLogs(
     addresses: [EthereumAddress]?,
     topics: [[EthereumData]]?,
     fromBlock: EthereumQuantityTag,
     toBlock: EthereumQuantityTag
-  ) async throws -> [EthereumLogObject] {
-    try await getLogs(addresses, topics, fromBlock, toBlock)
+  ) async throws -> [EthereumLogObject]
+
+  func subscribeToLogs(
+    addresses: [EthereumAddress]?, topics: [[EthereumData]]?
+  ) -> AsyncThrowingStream<EthereumLogObject, Error>
+}
+
+extension Web3Async {
+  func getTransactionCount(
+    for address: EthereumAddress, block: EthereumQuantityTag = .latest
+  ) async throws -> EthereumQuantity {
+    try await getTransactionCount(for: address, block: block)
   }
 
   func estimateGas(
@@ -31,56 +56,146 @@ extension Web3AsyncAdapter {
     gas: EthereumQuantity? = nil,
     value: EthereumQuantity? = nil
   ) async throws -> EthereumQuantity {
-    try await estimateGas(invocation, from, gas, value)
+    try await estimateGas(invocation: invocation,
+                          from: from,
+                          gas: gas,
+                          value: value)
+  }
+
+  func getLogs(
+    addresses: [EthereumAddress]? = nil,
+    topics: [[EthereumData]]? = nil,
+    fromBlock: EthereumQuantityTag = .latest,
+    toBlock: EthereumQuantityTag = .latest
+  ) async throws -> [EthereumLogObject] {
+    try await getLogs(addresses: addresses,
+                      topics: topics,
+                      fromBlock: fromBlock,
+                      toBlock: toBlock)
+  }
+
+  func subscribeToLogs(
+    addresses: [EthereumAddress]? = nil,
+    topics: [[EthereumData]]? = nil
+  ) -> AsyncThrowingStream<EthereumLogObject, Error> {
+    subscribeToLogs(addresses: addresses, topics: topics)
+  }
+}
+
+struct Web3AsyncAdapter: Web3Async {
+  private let web3: Web3
+
+  init(web3: Web3) {
+    self.web3 = web3
   }
 
   func getTransactionCount(
-    for address: EthereumAddress, block: EthereumQuantityTag = .latest
+    for address: EthereumAddress, block: EthereumQuantityTag
   ) async throws -> EthereumQuantity {
-    try await getTransactionCount(address, block)
+    let result = await asyncWrapper { callback in
+      web3.eth.getTransactionCount(address: address, block: block) { response in
+        callback(response.status.asResult)
+      }
+    }
+
+    return try result.get()
+  }
+
+  func gasPrice() async throws -> EthereumQuantity {
+    let result = await asyncWrapper { callback in
+      web3.eth.gasPrice { response in
+        callback(response.status.asResult)
+      }
+    }
+
+    return try result.get()
+  }
+
+  func estimateGas(
+    invocation: SolidityInvocation,
+    from: EthereumAddress? = nil,
+    gas: EthereumQuantity? = nil,
+    value: EthereumQuantity? = nil
+  ) async throws -> EthereumQuantity {
+    let result = await asyncWrapper { callback in
+      invocation.estimateGas(from: from, gas: gas, value: value) { data, error in
+        callback(getResult(data, error))
+      }
+    }
+
+    return try result.get()
+  }
+
+  func call(_ invocation: SolidityInvocation) async throws -> [String: Any] {
+    let result = await asyncWrapper { callback in
+      invocation.call { data, error in
+        callback(getResult(data, error))
+      }
+    }
+
+    return try result.get()
   }
 
   func sendRawTransaction(
     transaction: EthereumSignedTransaction
   ) async throws -> EthereumData {
-    try await sendRawTransaction(transaction)
+    let result = try await throwingAsyncWrapper { callback in
+      try web3.eth.sendRawTransaction(transaction: transaction) { response in
+        callback(response.status.asResult)
+      }
+    }
+
+    return try result.get()
+  }
+
+  func getLogs(
+    addresses: [EthereumAddress]?,
+    topics: [[EthereumData]]?,
+    fromBlock: EthereumQuantityTag,
+    toBlock: EthereumQuantityTag
+  ) async throws -> [EthereumLogObject] {
+    let result = await asyncWrapper { callback in
+      web3.eth.getLogs(
+        addresses: addresses, topics: topics, fromBlock: fromBlock, toBlock: toBlock
+      ) { response in
+        callback(response.status.asResult)
+      }
+    }
+
+    return try result.get()
   }
 
   func subscribeToLogs(
-    addresses: [EthereumAddress]? = nil, topics: [[EthereumData]]? = nil
+    addresses: [EthereumAddress]?, topics: [[EthereumData]]?
   ) -> AsyncThrowingStream<EthereumLogObject, Error> {
-    subscribeToLogs(addresses, topics)
+    AsyncThrowingStream { continuation in
+      var ongoingSubscriptionId: String?
+
+      do {
+        try web3.eth.subscribeToLogs(addresses: addresses, topics: topics) { response in
+          switch response.status {
+          case let .failure(error):
+            continuation.finish(throwing: error)
+          case let .success(subscriptionId):
+            ongoingSubscriptionId = subscriptionId
+          }
+        } onEvent: { response in
+          switch response.status {
+          case let .success(log):
+            continuation.yield(log)
+          case let .failure(error):
+            continuation.finish(throwing: error)
+          }
+        }
+      } catch {
+        continuation.finish(throwing: error)
+      }
+
+      continuation.onTermination = { [ongoingSubscriptionId] _ in
+        if let ongoingSubscriptionId {
+          try? web3.eth.unsubscribe(subscriptionId: ongoingSubscriptionId) { _ in }
+        }
+      }
+    }
   }
-}
-
-struct Web3AsyncAdapter {
-  var getTransactionCount: (
-    _ address: EthereumAddress, _ block: EthereumQuantityTag
-  ) async throws -> EthereumQuantity
-
-  var gasPrice: () async throws -> EthereumQuantity
-
-  var estimateGas: (
-    _ invocation: SolidityInvocation,
-    _ from: EthereumAddress?,
-    _ gas: EthereumQuantity?,
-    _ value: EthereumQuantity?
-  ) async throws -> EthereumQuantity
-
-  var call: (SolidityInvocation) async throws -> [String: Any]
-
-  var sendRawTransaction: (
-    _ transaction: EthereumSignedTransaction
-  ) async throws -> EthereumData
-
-  var getLogs: (
-    _ addresses: [EthereumAddress]?,
-    _ topics: [[EthereumData]]?,
-    _ fromBlock: EthereumQuantityTag,
-    _ toBlock: EthereumQuantityTag
-  ) async throws -> [EthereumLogObject]
-
-  var subscribeToLogs: (
-    _ addresses: [EthereumAddress]?, _ topics: [[EthereumData]]?
-  ) -> AsyncThrowingStream<EthereumLogObject, Error>
 }

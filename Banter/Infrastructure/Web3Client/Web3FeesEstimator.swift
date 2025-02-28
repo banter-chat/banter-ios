@@ -9,7 +9,7 @@
 import Web3
 
 protocol Web3FeesEstimator {
-  func estimateFees(web3: Web3AsyncAdapter) async throws -> Fees
+  func estimateFees(web3: Web3Async) async throws -> Fees
 }
 
 struct Fees {
@@ -18,7 +18,7 @@ struct Fees {
 }
 
 struct BasicWeb3FeesEstimator: Web3FeesEstimator {
-  func estimateFees(web3: Web3AsyncAdapter) async throws -> Fees {
+  func estimateFees(web3: Web3Async) async throws -> Fees {
     let gasPrice = try await web3.gasPrice()
 
     return Fees(

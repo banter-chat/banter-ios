@@ -25,7 +25,7 @@ func createChat(recipient: String) {
     let chainId = UInt64(chainId)
   else { return }
 
-  let web3Wrapper = Web3AsyncAdapter.live(web3: web3)
+  let web3Wrapper = Web3AsyncAdapter(web3: web3)
 
   let contract = ChatListContract(address: contractAddress, eth: web3.eth)
 
