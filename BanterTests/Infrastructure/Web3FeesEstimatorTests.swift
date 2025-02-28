@@ -18,8 +18,8 @@ struct Web3FeesEstimatorTests {
   func testBasicWeb3FeesEstimatorReturnsCorrectFees() async throws {
     // Given
     let mockGasPrice = EthereumQuantity(quantity: 20.gwei)
-    let mockWeb3 = MockWeb3Async(
-      gasPriceResult: Result<EthereumQuantity, Error>.success(mockGasPrice))
+    let mockWeb3 = MockWeb3Async()
+    mockWeb3.priceResult = .success(mockGasPrice)
     let estimator = BasicWeb3FeesEstimator()
 
     // When
@@ -35,7 +35,8 @@ struct Web3FeesEstimatorTests {
     // Given
     struct TestError: Error {}
     let mockError = TestError()
-    let mockWeb3 = MockWeb3Async(gasPriceResult: Result<EthereumQuantity, Error>.failure(mockError))
+    let mockWeb3 = MockWeb3Async()
+    mockWeb3.priceResult = .failure(mockError)
     let estimator = BasicWeb3FeesEstimator()
 
     // When/Then
