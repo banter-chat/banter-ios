@@ -35,5 +35,6 @@ final class SettingsModel: ObservableObject {
   func generateNewAddressTapped() {
     guard let key = try? EthereumPrivateKey() else { return }
     $walletKeyHex.withLock { $0 = key.hex() }
+    $settings.withLock { $0.web3.userAddress = key.address.hex(eip55: true) }
   }
 }

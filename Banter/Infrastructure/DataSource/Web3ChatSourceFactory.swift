@@ -24,13 +24,14 @@ struct Web3ChatSourceFactory: RemoteChatDataSourceFactory {
       throw Web3ChatSourceFactoryError.invalidURL
     }
 
-    let address = try EthereumAddress(hex: settings.web3.contractAddress, eip55: false)
+    let contract = try EthereumAddress(hex: settings.web3.contractAddress, eip55: false)
+    let user = try EthereumAddress(hex: settings.web3.userAddress, eip55: false)
     let web3 = try Web3(wsUrl: url.absoluteString)
 
     let adapter = Web3AsyncAdapter(web3: web3)
     let client = BasicWeb3Client(web3: adapter, chainId: chainId)
 
-    return Web3ChatSource(client: client, contractAddress: address)
+    return Web3ChatSource(client: client, contractAddress: contract, userAddress: user)
   }
 }
 

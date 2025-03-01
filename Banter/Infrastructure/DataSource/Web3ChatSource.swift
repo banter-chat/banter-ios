@@ -12,9 +12,12 @@ import Web3
 struct Web3ChatSource: RemoteChatDataSource {
   let client: Web3Client
   let contractAddress: EthereumAddress
+  let userAddress: EthereumAddress
 
   func observeChats() -> AsyncStream<[Chat]> {
     AsyncStream { continuation in
+      let userId = userAddress.hex(eip55: true)
+
       Task {
         do {
           let existingDTOs = try await client.find(contractAddress: contractAddress,
@@ -22,7 +25,9 @@ struct Web3ChatSource: RemoteChatDataSource {
                                                    from: .earliest,
                                                    to: .latest)
 
-          var chats = existingDTOs.compactMap(Chat.init)
+          var chats = existingDTOs.compactMap(Chat.init).filter {
+            $0.recipientId == userId || $0.authorId == userId
+          }
 
           continuation.yield(chats)
 
@@ -30,7 +35,11 @@ struct Web3ChatSource: RemoteChatDataSource {
                                          event: ChatListContract.ChatCreated)
 
           for try await dto in updates {
-            guard let newChat = Chat(dto: dto) else { continue }
+            guard
+              let newChat = Chat(dto: dto),
+              newChat.recipientId == userId || newChat.authorId == userId
+            else { continue }
+
             chats.append(newChat)
             continuation.yield(chats)
           }
@@ -44,8 +53,15 @@ struct Web3ChatSource: RemoteChatDataSource {
 
 private extension Chat {
   init?(dto: [String: Any]) {
-    guard let chat = dto["chatContract"] as? EthereumAddress else { return nil }
-    self.id = chat.hex(eip55: true)
+    guard
+      let chat = dto["chatContract"] as? EthereumAddress,
+      let author = dto["author"] as? EthereumAddress,
+      let recipient = dto["recipient"] as? EthereumAddress
+    else { return nil }
+
+    id = chat.hex(eip55: true)
+    authorId = author.hex(eip55: true)
+    recipientId = recipient.hex(eip55: true)
   }
 }
 

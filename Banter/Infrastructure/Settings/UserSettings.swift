@@ -1,4 +1,4 @@
-// Web3Settings.swift is a part of Banter project
+// UserSettings.swift is a part of Banter project
 //
 // Created by Andrei Chenchik (andrei@chenchik.me), 1/3/25
 // Copyright © 2025 Andrei Chenchik, Inc. All rights reserved.
@@ -13,6 +13,7 @@ struct Web3Settings: Codable, Equatable {
   var rpcWSURL = ""
   var chainId = ""
   var contractAddress = ""
+  var userAddress = ""
 }
 
 struct UserSettings: Codable, Equatable {

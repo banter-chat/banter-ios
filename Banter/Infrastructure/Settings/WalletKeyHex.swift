@@ -1,4 +1,4 @@
-// Settings.swift is a part of Banter project
+// WalletKeyHex.swift is a part of Banter project
 //
 // Created by Andrei Chenchik (andrei@chenchik.me), 21/2/25
 // Copyright © 2025 Andrei Chenchik, Inc. All rights reserved.
