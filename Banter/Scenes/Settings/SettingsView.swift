@@ -14,9 +14,9 @@ struct SettingsView: View {
   var body: some View {
     Form {
       Section("Node settings") {
-        TextField("WebSocket RPC URL", text: $model.rpcWSURL)
-        TextField("Chain ID", text: $model.chainId)
-        TextField("Chat List Contract Address", text: $model.chatListAddress)
+        TextField("WebSocket RPC URL", text: $model.settings.rpcWSURL)
+        TextField("Chain ID", text: $model.settings.chainId)
+        TextField("Chat List Contract Address", text: $model.settings.chatListAddress)
       }
 
       Section {

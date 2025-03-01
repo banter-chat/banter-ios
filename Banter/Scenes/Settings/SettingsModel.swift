@@ -12,17 +12,15 @@ import Web3
 
 @Observable
 final class SettingsModel: ObservableObject {
-  @ObservationIgnored @Shared(.rpcWSURL) var rpcWSURL
-  @ObservationIgnored @Shared(.chainId) var chainId
-  @ObservationIgnored @Shared(.chatListAddress) var chatListAddress
+  @ObservationIgnored @Shared(.web3Settings) var settings
   @ObservationIgnored @Shared(.walletKeyHex) var walletKeyHex
 
   var isReadyToChat: Bool {
-    !rpcWSURL.isEmpty
-      && !chatListAddress.isEmpty
+    !settings.rpcWSURL.isEmpty
+      && !settings.chatListAddress.isEmpty
       && !walletKeyHex.isEmpty
-      && !chainId.isEmpty
-      && Int(chainId) != nil
+      && !settings.chainId.isEmpty
+      && Int(settings.chainId) != nil
   }
 
   var walletAddress: String? {

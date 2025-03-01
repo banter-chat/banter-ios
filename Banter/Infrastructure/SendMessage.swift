@@ -12,15 +12,14 @@ import Web3ContractABI
 import Web3PromiseKit
 
 func sendMessage(address: String, message: String) {
-  @Shared(.rpcWSURL) var rpcWSURL
-  @Shared(.chainId) var chainId
+  @Shared(.web3Settings) var settings
   @Shared(.walletKeyHex) var walletKeyHex
 
   guard
-    let web3 = try? Web3(wsUrl: rpcWSURL),
+    let web3 = try? Web3(wsUrl: settings.rpcWSURL),
     let contractAddress = try? EthereumAddress(hex: address, eip55: false),
     let callerKey = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex),
-    !chainId.isEmpty
+    !settings.chainId.isEmpty
   else { return }
 
   let contract = web3.eth.Contract(
@@ -44,7 +43,7 @@ func sendMessage(address: String, message: String) {
         accessList: [:],
         transactionType: .eip1559
       )
-    return try transaction!.sign(with: callerKey, chainId: .string(chainId)).promise
+    return try transaction!.sign(with: callerKey, chainId: .string(settings.chainId)).promise
   }.then { tx in
     web3.eth.sendRawTransaction(transaction: tx)
   }
