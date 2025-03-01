@@ -51,7 +51,7 @@ struct ChatListView: View {
       Text("Provide an address of the recipient.")
     }
     .task {
-      model.viewAppeared()
+      await model.viewAppeared()
     }
   }
 }

@@ -24,6 +24,8 @@ struct ChatDisplay {
 final class ChatListModel {
   @ObservationIgnored @Shared(.walletKeyHex) var walletKeyHex
 
+  let repo = LiveChatRepository(dataSourceFactory: Web3ChatSourceFactory())
+
   var chats: [Chat] = []
   var isSubscribed = false
   var newChatAddress = ""
@@ -37,14 +39,9 @@ final class ChatListModel {
     UIPasteboard.general.string = walletAddress
   }
 
-  func viewAppeared() {
-    guard !isSubscribed else { return }
-    isSubscribed = true
-    getChats { [weak self] newChat in
-      DispatchQueue.main.async {
-        let chat = Chat(id: newChat)
-        self?.chats.append(chat)
-      }
+  func viewAppeared() async {
+    for await chats in repo.observeChats() {
+      self.chats = chats
     }
   }
 

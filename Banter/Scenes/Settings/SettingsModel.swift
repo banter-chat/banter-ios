@@ -17,7 +17,7 @@ final class SettingsModel: ObservableObject {
 
   var isReadyToChat: Bool {
     !settings.web3.rpcWSURL.isEmpty
-      && !settings.web3.managerAddress.isEmpty
+      && !settings.web3.contractAddress.isEmpty
       && !walletKeyHex.isEmpty
       && !settings.web3.chainId.isEmpty
       && Int(settings.web3.chainId) != nil
