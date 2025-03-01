@@ -22,29 +22,29 @@ protocol RemoteChatDataSourceFactory {
   func makeDataSource(with: UserSettings) throws -> RemoteChatDataSource
 }
 
-final class LiveChatRepository: ChatRepository {
-  @Shared(.userSettings) var settings
+extension LiveChatRepository: ChatRepository {
+  func observeChats() -> AsyncStream<[Chat]> {
+    createSubscriberStream()
+  }
+}
 
-  private let dataSourceFactory: RemoteChatDataSourceFactory
-  private var remoteDataSource: RemoteChatDataSource?
+final class LiveChatRepository {
+  @Shared(.userSettings) private var settings
+
+  private let remoteSourceFactory: RemoteChatDataSourceFactory
+  private var remoteSource: RemoteChatDataSource?
   private var settingsObservation: AnyCancellable?
 
-  private var sourceStream: AsyncStream<[Chat]>?
   private var subscribers: [UUID: AsyncStream<[Chat]>.Continuation] = [:]
-  private var observeTask: Task<Void, Never>?
+  private var sourceTask: Task<Void, Never>?
   private var latestValue: [Chat]?
 
-  init(dataSourceFactory: RemoteChatDataSourceFactory) {
-    self.dataSourceFactory = dataSourceFactory
-    startSettingsObservation()
+  init(remoteSourceFactory: RemoteChatDataSourceFactory) {
+    self.remoteSourceFactory = remoteSourceFactory
+    observeSettings()
   }
 
-  func observeChats() -> AsyncStream<[Chat]> {
-    startObservingSourceStream()
-    return createSubscriberStream()
-  }
-
-  private func startSettingsObservation() {
+  private func observeSettings() {
     settingsObservation = $settings.publisher
       .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
       .removeDuplicates()
@@ -52,63 +52,63 @@ final class LiveChatRepository: ChatRepository {
   }
 
   private func updateDataSource(with settings: UserSettings) {
-    guard let newSource = try? dataSourceFactory.makeDataSource(with: settings) else {
-      return
-    }
+    sourceTask?.cancel()
+    latestValue = nil
 
-    observeTask?.cancel()
-    observeTask = nil
-
-    remoteDataSource = newSource
+    remoteSource = try? remoteSourceFactory.makeDataSource(with: settings)
 
     if !subscribers.isEmpty {
-      startObservingSourceStream()
+      startObservingSource()
     }
   }
 
-  private func startObservingSourceStream() {
-    guard let remoteDataSource, observeTask == nil else { return }
+  private func startObservingSource() {
+    guard let remoteSource, sourceTask == nil else { return }
 
-    observeTask = Task {
-      for await chats in remoteDataSource.observeChats() {
+    sourceTask = Task {
+      defer { sourceTask = nil }
+
+      for await chats in remoteSource.observeChats() {
         latestValue = chats
 
-        for (_, continuation) in subscribers {
+        for continuation in subscribers.values {
           continuation.yield(chats)
         }
       }
 
       if !Task.isCancelled {
-        for (_, continuation) in subscribers {
+        for continuation in subscribers.values {
           continuation.finish()
         }
+
         subscribers.removeAll()
       }
-
-      observeTask = nil
     }
   }
 
   private func createSubscriberStream() -> AsyncStream<[Chat]> {
-    AsyncStream { continuation in
-      let streamId = UUID()
-      subscribers[streamId] = continuation
+    startObservingSource()
 
-      if let latestValue {
-        continuation.yield(latestValue)
-      }
+    let streamId = UUID()
 
-      continuation.onTermination = { [weak self] _ in
-        self?.subscribers.removeValue(forKey: streamId)
-        self?.checkIfSourceStreamStillNeeded()
-      }
+    let (stream, continuation) = AsyncStream<[Chat]>.makeStream()
+    subscribers[streamId] = continuation
+
+    if let latestValue {
+      continuation.yield(latestValue)
     }
+
+    continuation.onTermination = { [weak self] _ in
+      self?.subscribers.removeValue(forKey: streamId)
+      self?.checkIfSourceStreamStillNeeded()
+    }
+
+    return stream
   }
 
   private func checkIfSourceStreamStillNeeded() {
     if subscribers.isEmpty {
-      observeTask?.cancel()
-      observeTask = nil
+      sourceTask?.cancel()
     }
   }
 }
