@@ -27,15 +27,15 @@ final class LiveChatRepository: ChatRepository {
 
   private let dataSourceFactory: RemoteChatDataSourceFactory
   private var remoteDataSource: RemoteChatDataSource?
+  private var settingsObservation: AnyCancellable?
+
   private var sourceStream: AsyncStream<[Chat]>?
   private var subscribers: [UUID: AsyncStream<[Chat]>.Continuation] = [:]
   private var observeTask: Task<Void, Never>?
   private var latestValue: [Chat]?
-  private var settingsObservation: AnyCancellable?
 
   init(dataSourceFactory: RemoteChatDataSourceFactory) {
     self.dataSourceFactory = dataSourceFactory
-    self.remoteDataSource = try? dataSourceFactory.makeDataSource(with: settings)
     startSettingsObservation()
   }
 
@@ -46,10 +46,12 @@ final class LiveChatRepository: ChatRepository {
 
   private func startSettingsObservation() {
     settingsObservation = $settings.publisher
-      .sink { [weak self] in self?.updateSettings($0) }
+      .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
+      .removeDuplicates()
+      .sink { [weak self] in self?.updateDataSource(with: $0) }
   }
 
-  private func updateSettings(_ settings: UserSettings) {
+  private func updateDataSource(with settings: UserSettings) {
     guard let newSource = try? dataSourceFactory.makeDataSource(with: settings) else {
       return
     }

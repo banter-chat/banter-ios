@@ -9,13 +9,13 @@
 import Foundation
 import Sharing
 
-struct Web3Settings: Codable {
+struct Web3Settings: Codable, Equatable {
   var rpcWSURL = ""
   var chainId = ""
   var contractAddress = ""
 }
 
-struct UserSettings: Codable {
+struct UserSettings: Codable, Equatable {
   var web3 = Web3Settings()
 }
 
