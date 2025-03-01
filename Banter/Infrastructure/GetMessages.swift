@@ -12,10 +12,10 @@ import Web3
 import Web3ContractABI
 
 func getMessages(chatAddress: String, onMessage: @escaping (String) -> Void) {
-  @Shared(.web3Settings) var settings
+  @Shared(.userSettings) var settings
 
   guard
-    let web3 = try? Web3(wsUrl: settings.rpcWSURL),
+    let web3 = try? Web3(wsUrl: settings.web3.rpcWSURL),
     let contractAddress = try? EthereumAddress(hex: chatAddress, eip55: false)
   else { return }
 

@@ -12,19 +12,23 @@ import Sharing
 struct Web3Settings: Codable {
   var rpcWSURL = ""
   var chainId = ""
-  var chatListAddress = ""
+  var contractAddress = ""
+}
+
+struct UserSettings: Codable {
+  var web3 = Web3Settings()
 }
 
 extension SharedReaderKey
-  where Self == FileStorageKey<Web3Settings>.Default {
-  static var web3Settings: Self {
-    Self[.fileStorage(.web3Settings), default: Web3Settings()]
+  where Self == FileStorageKey<UserSettings>.Default {
+  static var userSettings: Self {
+    Self[.fileStorage(.userSettings), default: UserSettings()]
   }
 }
 
 extension URL {
-  static let web3Settings = Self.documentsDirectory
-    .appendingPathComponent("web3-settings")
+  static let userSettings = Self.documentsDirectory
+    .appendingPathComponent("user-settings")
     .appendingPathExtension("json")
 }
 

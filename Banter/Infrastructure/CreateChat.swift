@@ -12,15 +12,19 @@ import Web3ContractABI
 import Web3PromiseKit
 
 func createChat(recipient: String) {
-  @Shared(.web3Settings) var settings
+  @Shared(.userSettings) var settings
   @Shared(.walletKeyHex) var walletKeyHex
 
+  let wsUrl = settings.web3.rpcWSURL
+  let contractAddress = settings.web3.contractAddress
+  let chainId = settings.web3.chainId
+
   guard
-    let web3 = try? Web3(wsUrl: settings.rpcWSURL),
-    let contractAddress = try? EthereumAddress(hex: settings.chatListAddress, eip55: false),
+    let web3 = try? Web3(wsUrl: wsUrl),
+    let contractAddress = try? EthereumAddress(hex: contractAddress, eip55: false),
     let callerKey = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex),
     let recipient = try? EthereumAddress(hex: recipient, eip55: false),
-    let chainId = UInt64(settings.chainId)
+    let chainId = UInt64(chainId)
   else { return }
 
   let web3Wrapper = Web3AsyncAdapter(web3: web3)

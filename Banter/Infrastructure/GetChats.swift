@@ -12,12 +12,12 @@ import Web3
 import Web3ContractABI
 
 func getChats(onNewChat: @escaping (String) -> Void) {
-  @Shared(.web3Settings) var settings
+  @Shared(.userSettings) var settings
   @Shared(.walletKeyHex) var walletKeyHex
 
   guard
-    let web3 = try? Web3(wsUrl: settings.rpcWSURL),
-    let contractAddress = try? EthereumAddress(hex: settings.chatListAddress, eip55: false),
+    let web3 = try? Web3(wsUrl: settings.web3.rpcWSURL),
+    let contractAddress = try? EthereumAddress(hex: settings.web3.contractAddress, eip55: false),
     let caller = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex).address
   else { return }
 

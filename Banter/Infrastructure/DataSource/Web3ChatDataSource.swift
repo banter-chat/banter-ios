@@ -6,15 +6,12 @@
 // Proprietary and confidential
 // 
 
-final class Web3ChatDataSource: RemoteChatDataSource {
-  let web3: Web3Client
-  let contract: ChatContract
+import Sharing
 
-  init(web3: Web3Client, contract: ChatContract) {
-    self.web3 = web3
-    self.contract = contract
-  }
-  
+final class Web3ChatDataSource: RemoteChatDataSource {
+  @Shared(.userSettings) var settings
+
+
   func observeChats() -> AsyncStream<[Chat]> {
     AsyncStream { continuation in
       

@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Sharing
+import Combine
 
 protocol ChatRepository {
   func observeChats() -> AsyncStream<[Chat]>
@@ -16,21 +18,40 @@ protocol RemoteChatDataSource {
   func observeChats() -> AsyncStream<[Chat]>
 }
 
+protocol RemoteChatDataSourceFactory {
+  func makeDataSource(with: UserSettings) -> RemoteChatDataSource
+}
+
 final class LiveChatRepository: ChatRepository {
-  let remoteDataSource: RemoteChatDataSource
+  @Shared(.userSettings) var settings
+
+  let dataSourceFactory: RemoteChatDataSourceFactory
+  private lazy var remoteDataSource = dataSourceFactory.makeDataSource(with: settings)
 
   private var sourceStream: AsyncStream<[Chat]>?
   private var subscribers: [UUID: AsyncStream<[Chat]>.Continuation] = [:]
   private var observeTask: Task<Void, Never>?
   private var latestValue: [Chat]?
+  private var settingsObservation: AnyCancellable?
 
-  init(remoteDataSource: RemoteChatDataSource) {
-    self.remoteDataSource = remoteDataSource
+  init(dataSourceFactory: RemoteChatDataSourceFactory) {
+    self.dataSourceFactory = dataSourceFactory
   }
 
   func observeChats() -> AsyncStream<[Chat]> {
     startObservingSourceStreamIfNeeded()
     return createSubscriberStream()
+  }
+
+  func observeSettings() {
+    settingsObservation = $settings.publisher.sink { [weak self] value in
+      self?.updateSettings(value)
+    }
+  }
+
+  func updateSettings(_ settings: UserSettings) {
+    remoteDataSource = dataSourceFactory.makeDataSource(with: settings)
+    // Cancel the old stream and start a new one
   }
 
   private func startObservingSourceStreamIfNeeded() {
