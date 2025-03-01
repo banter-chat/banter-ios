@@ -100,13 +100,13 @@ final class LiveChatRepository {
 
     continuation.onTermination = { [weak self] _ in
       self?.subscribers.removeValue(forKey: streamId)
-      self?.checkIfSourceStreamStillNeeded()
+      self?.cancelSourceIfNotNeeded()
     }
 
     return stream
   }
 
-  private func checkIfSourceStreamStillNeeded() {
+  private func cancelSourceIfNotNeeded() {
     if subscribers.isEmpty {
       sourceTask?.cancel()
     }
