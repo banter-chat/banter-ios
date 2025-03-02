@@ -32,7 +32,7 @@ struct ChatDisplay {
 @Observable
 final class ChatListModel {
   @ObservationIgnored @Shared(.walletKeyHex) var walletKeyHex
-    private let mock = MockRepo()
+    private let mock: ChatRepository = MockRepo()
   var chats: [Chat] = []
   var isSubscribed = false
   var newChatAddress = ""
@@ -50,7 +50,10 @@ final class ChatListModel {
     /// Получение из блока пока закоментил, потом когда вся логика
     /// будет готова останется ее тут прописать
   func viewAppeared() {
-      self.chats = mock.getChats()
+      Task{
+          self.chats = try await mock.getChats()
+      }
+      
 //    guard !isSubscribed else { return }
 //    isSubscribed = true
 //    getChats { [weak self] newChat in

@@ -10,7 +10,7 @@ import SwiftUI
 import MessageKit
 import Sharing
 
-struct MessageRepo: MessageRepository {
+struct MockMessageRepository: MessageRepository {
     func getMessages(id: String) -> [Message] {
         [
             Message(sender: Sender(senderId: "selfAdress", displayName: "Self"), messageId: UUID().uuidString, sentDate: Date().addingTimeInterval(-1), kind: .text("Lorem ipsum dolor sit amet, consectetur adipisicing elit")),
@@ -27,7 +27,7 @@ struct MessageRepo: MessageRepository {
 
 @Observable
 final class ChatModel {
-    private let mockData: MessageRepo = MessageRepo()
+    private let mockData: MessageRepository = MockMessageRepository()
     var chatAddress: String
     var selfSender: Sender
     var messages: [Message] = []
@@ -46,7 +46,10 @@ final class ChatModel {
   }
 
     func viewAppeared() {
-        self.messages = mockData.getMessages(id: chatAddress)
+        Task{
+            self.messages = try await mockData.getMessages(id: chatAddress)
+        }
+        
   }
     
     func sendMessageTapped(message: Message) {
