@@ -43,7 +43,7 @@ final class LiveChatRepository {
     sourceTask?.cancel()
     latestValue = nil
 
-    remoteSource = try? remoteSourceFactory.makeDataSource(with: settings)
+    remoteSource = try? remoteSourceFactory.makeChatSource(with: settings)
 
     if !subscribers.isEmpty {
       startObservingSource()

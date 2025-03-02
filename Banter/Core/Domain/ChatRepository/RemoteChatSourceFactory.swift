@@ -20,7 +20,7 @@ protocol RemoteChatSourceFactory {
   /// Example:
   /// ```swift
   /// do {
-  ///     let dataSource = try factory.makeDataSource(with: currentUserSettings)
+  ///     let dataSource = try factory.makeChatSource(with: currentUserSettings)
   ///     let repository = ChatRepositoryImpl(remoteSource: dataSource)
   ///     // Use repository...
   /// } catch {
@@ -28,5 +28,5 @@ protocol RemoteChatSourceFactory {
   ///     showErrorAlert(error)
   /// }
   /// ```
-  func makeDataSource(with: UserSettings) throws -> RemoteChatSource
+  func makeChatSource(with: UserSettings) throws -> RemoteChatSource
 }
