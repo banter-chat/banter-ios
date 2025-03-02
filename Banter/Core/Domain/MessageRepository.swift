@@ -14,7 +14,7 @@ import Foundation
 ///
 /// ## Usage Example
 ///
-/// ```swiftz
+/// ```swift
 /// let repository: MessageRepository = /* repository implementation */
 ///
 /// // Get the most recent messages
