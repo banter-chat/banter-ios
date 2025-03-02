@@ -4,15 +4,13 @@ import UIKit
 import MessageKit
 import InputBarAccessoryView
 
-class ChatViewContent: MessagesViewController {
+protocol ChatViewContentProtocol: AnyObject{
+    func updateChat()
+}
+
+class ChatViewContent: MessagesViewController, ChatViewContentProtocol {
     
-    var model: ChatModel
-    
-    init(model: ChatModel) {
-        self.model = model
-        super.init(nibName: nil, bundle: nil)
-        model.viewAppeared()
-    }
+    var model: ChatModelProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +18,7 @@ class ChatViewContent: MessagesViewController {
         messagerSetup()
         messagesCollectionView.reloadDataAndKeepOffset()
         setupInputBar()
+        model.viewAppeared()
     }
     
     private func messagerSetup(){
@@ -44,8 +43,11 @@ class ChatViewContent: MessagesViewController {
         model.sendMessageTapped(message: message)
     }
     
-    @MainActor required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func updateChat() {
+        DispatchQueue.main.async {
+            self.messagesCollectionView.reloadData()
+        }
+        
     }
 }
 

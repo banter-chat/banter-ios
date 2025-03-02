@@ -11,18 +11,31 @@ import MessageKit
 import Sharing
 
 
-@Observable
-final class ChatModel {
+
+protocol ChatModelProtocol: AnyObject{
+    var messages: [Message] { get }
+    func viewAppeared()
+    func sendMessageTapped(message: Message)
+    var selfSender: Sender { get }
+}
+
+final class ChatModel: ChatModelProtocol {
     //private let mockData: MessageRepository = MockMessageRepository()
     var chatAddress: String
     var selfSender: Sender
-    var messages: [Message] = []
+    var messages: [Message] = []{
+        willSet{
+            view?.updateChat()
+        }
+    }
     var isSubscribed = false
     let mockRepo = MockMessageRepository(mockMessages: [])
 
-  init(chatAddress: String) {
+    weak var view: ChatViewContentProtocol?
+    
+    init(chatAddress: String, view: ChatViewContentProtocol) {
     self.chatAddress = chatAddress
-      
+        self.view = view
     ///`self.selfSender = Sender(senderId: userAdressKeyHex, displayName: "Self")`
       ///этот код с установкой адреса в качестве id отправителя
       ///но пока оставил мок данные, потом просто надо будет раскоментить
@@ -43,11 +56,11 @@ final class ChatModel {
                   switch updates {
                   case .added(let message):
                       self.messages.append(covertMessage(from: message))
-                      print(message)
                   }
             }
         }
   }
+    
     private func covertMessage(from message: ChatMessage) -> Message{
         return Message(sender: message.senderId == "selfAdress" ? self.selfSender : Sender(senderId: message.senderId, displayName: "Other"), messageId: message.id, sentDate: message.timestamp, kind: .text(message.content))
     }

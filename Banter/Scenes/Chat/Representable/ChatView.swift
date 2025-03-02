@@ -3,21 +3,23 @@
 import SwiftUI
 
 struct ChatView: UIViewControllerRepresentable{
-    var model: ChatModel
+    var chatAdress: String
     
     init(chatAddress: String) {
-        self.model = ChatModel(chatAddress: chatAddress)
+        self.chatAdress = chatAddress
     }
     
     typealias UIViewControllerType = UIViewController
     
     func makeUIViewController(context: Context) -> UIViewController {
-        return ChatViewContent(model: model)
+        let vc = ChatViewContent()
+        let model = ChatModel(chatAddress: chatAdress, view: vc)
+        vc.model = model
+        return vc
+        
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
         print("update")
     }
-    
-   
 }
