@@ -9,7 +9,7 @@
 import Sharing
 import Web3
 
-struct Web3ChatSource: RemoteChatDataSource {
+struct Web3ChatSource: RemoteChatSource {
   let client: Web3Client
   let contractAddress: EthereumAddress
   let userAddress: EthereumAddress

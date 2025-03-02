@@ -63,7 +63,9 @@ struct BasicWeb3Client: Web3Client {
   ) async throws {
     async let nonce = try await web3.getTransactionCount(for: key.address)
     async let prices = try await estimator.estimateFees(web3: web3)
-    async let gasLimit = try await web3.estimateGas(invocation: invocation)
+    async let gasLimit = try await web3.estimateGas(invocation: invocation,
+                                                    from: key.address,
+                                                    value: value)
 
     let transaction = try await builder.build(invocation,
                                               sender: key.address,

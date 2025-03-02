@@ -1,4 +1,4 @@
-// MessageUpdate.swift is a part of Banter project
+// ChatMessageUpdate.swift is a part of Banter project
 //
 // Created by Andrei Chenchik (andrei@chenchik.me), 27/2/25
 // Copyright © 2025 Andrei Chenchik, Inc. All rights reserved.
@@ -10,7 +10,7 @@
 ///
 /// This enum defines the various types of message events that can be observed
 /// through the `observeMessageUpdates` method.
-enum MessageUpdate {
+enum ChatMessageUpdate {
   /// Indicates that a new message was added to the chat.
   ///
   /// - Parameter message: The new message that was added.

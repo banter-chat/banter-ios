@@ -1,4 +1,4 @@
-// MessageRepository.swift is a part of Banter project
+// ChatMessageRepository.swift is a part of Banter project
 //
 // Created by Andrei Chenchik (andrei@chenchik.me), 26/2/25
 // Copyright © 2025 Andrei Chenchik, Inc. All rights reserved.
@@ -10,12 +10,12 @@ import Foundation
 
 /// A repository interface for retrieving chat messages.
 ///
-/// The MessageRepository provides access to chat message history using timestamp-based pagination.
+/// The ChatMessageRepository provides access to chat message history using timestamp-based pagination.
 ///
 /// ## Usage Example
 ///
 /// ```swift
-/// let repository: MessageRepository = /* repository implementation */
+/// let repository: ChatMessageRepository = /* repository implementation */
 ///
 /// // Get the most recent messages
 /// let recentMessages = try await repository.getMessages(limit: 30)
@@ -28,7 +28,7 @@ import Foundation
 ///     )
 /// }
 /// ```
-protocol MessageRepository {
+protocol ChatMessageRepository {
   /// Retrieves chat messages with pagination support.
   ///
   /// This method fetches a batch of messages ordered by timestamp. When `before` is provided,
@@ -51,13 +51,13 @@ protocol MessageRepository {
   /// This method returns an `AsyncStream` that emits events whenever a message is added to the chat.
   /// The stream continues until it's explicitly cancelled or the associated task is cancelled.
   ///
-  /// - Returns: An `AsyncStream` of `MessageUpdate` events. Currently, this includes message additions,
+  /// - Returns: An `AsyncStream` of `ChatMessageUpdate` events. Currently, this includes message additions,
   ///   with support for future update types like edits and deletions.
   ///
   /// ## Example
   ///
   /// ```swift
-  /// let repository: MessageRepository = /* repository implementation */
+  /// let repository: ChatMessageRepository = /* repository implementation */
   ///
   /// // Start observing updates
   /// let task = Task {
@@ -73,5 +73,5 @@ protocol MessageRepository {
   /// // Later, cancel the observation
   /// task.cancel()
   /// ```
-  func observeMessageUpdates() -> AsyncStream<MessageUpdate>
+  func observeMessageUpdates() -> AsyncStream<ChatMessageUpdate>
 }

@@ -1,25 +1,31 @@
-//error nil
+// error nil
 
+import Sharing
 import SwiftUI
 
-struct ChatView: UIViewControllerRepresentable{
-    var chatAdress: String
-    
-    init(chatAddress: String) {
-        self.chatAdress = chatAddress
-    }
-    
-    typealias UIViewControllerType = UIViewController
-    
-    func makeUIViewController(context: Context) -> UIViewController {
-        let vc = ChatViewContent()
-        let model = ChatModel(chatAddress: chatAdress, view: vc)
-        vc.model = model
-        return vc
-        
-    }
-    
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        print("update")
-    }
+struct ChatView: UIViewControllerRepresentable {
+  @Shared(.userSettings) var settings
+
+  var chatAdress: String
+
+  init(chatAddress: String) {
+    self.chatAdress = chatAddress
+  }
+
+  typealias UIViewControllerType = UIViewController
+
+  func makeUIViewController(context _: Context) -> UIViewController {
+    let vc = ChatViewContent()
+    let factory = Web3SourceFactory()
+    #warning("Fix this force unwrap")
+    let source = try! factory.makeMessageSource(with: settings, chatAddress: chatAdress)
+    let repo = LiveChatMessageRepository(remoteSource: source)
+    let model = ChatModel(chatAddress: chatAdress, view: vc, repo: repo)
+    vc.model = model
+    return vc
+  }
+
+  func updateUIViewController(_: UIViewController, context _: Context) {
+    print("update")
+  }
 }

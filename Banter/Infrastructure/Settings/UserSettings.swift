@@ -32,4 +32,3 @@ extension URL {
     .appendingPathComponent("user-settings")
     .appendingPathExtension("json")
 }
-

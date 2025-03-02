@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// A mock implementation of the `MessageRepository` protocol for use in SwiftUI previews,
+/// A mock implementation of the `ChatMessageRepository` protocol for use in SwiftUI previews,
 /// view development, and testing.
 ///
 /// This implementation provides:
@@ -32,7 +32,7 @@ import Foundation
 ///     }
 /// }
 /// ```
-final class MockMessageRepository: MessageRepository {
+final class MockMessageRepository: ChatMessageRepository {
   // MARK: - Properties
 
   /// Collection of mock messages for testing
@@ -42,7 +42,7 @@ final class MockMessageRepository: MessageRepository {
   private var timer: Timer?
 
   /// Continuation for the message update stream
-  private var streamContinuation: AsyncStream<MessageUpdate>.Continuation?
+  private var streamContinuation: AsyncStream<ChatMessageUpdate>.Continuation?
 
   /// Random names to use for generated senders
   private let senderNames = [
@@ -83,7 +83,7 @@ final class MockMessageRepository: MessageRepository {
     streamContinuation?.finish()
   }
 
-  // MARK: - MessageRepository Implementation
+  // MARK: - ChatMessageRepository Implementation
 
   func getMessages(before: Date? = nil, limit: Int) async throws -> [ChatMessage] {
     // Simulate network delay
@@ -100,8 +100,8 @@ final class MockMessageRepository: MessageRepository {
     }
   }
 
-  func observeMessageUpdates() -> AsyncStream<MessageUpdate> {
-    return AsyncStream<MessageUpdate> { continuation in
+  func observeMessageUpdates() -> AsyncStream<ChatMessageUpdate> {
+    return AsyncStream<ChatMessageUpdate> { continuation in
       self.streamContinuation = continuation
 
       // Allow for cancellation

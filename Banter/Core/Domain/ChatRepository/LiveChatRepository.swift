@@ -10,18 +10,6 @@ import Combine
 import Foundation
 import Sharing
 
-protocol ChatRepository {
-  func observeChats() -> AsyncStream<[Chat]>
-}
-
-protocol RemoteChatDataSource {
-  func observeChats() -> AsyncStream<[Chat]>
-}
-
-protocol RemoteChatDataSourceFactory {
-  func makeDataSource(with: UserSettings) throws -> RemoteChatDataSource
-}
-
 extension LiveChatRepository: ChatRepository {
   func observeChats() -> AsyncStream<[Chat]> {
     createSubscriberStream()
@@ -31,16 +19,15 @@ extension LiveChatRepository: ChatRepository {
 final class LiveChatRepository {
   @Shared(.userSettings) private var settings
 
-  private let remoteSourceFactory: RemoteChatDataSourceFactory
-  private var remoteSource: RemoteChatDataSource?
+  private let remoteSourceFactory: RemoteChatSourceFactory
+  private var remoteSource: RemoteChatSource?
   private var settingsObservation: AnyCancellable?
 
-  #warning("Concurrent access to subscribers")
   private var subscribers: [UUID: AsyncStream<[Chat]>.Continuation] = [:]
   private var sourceTask: Task<Void, Never>?
   private var latestValue: [Chat]?
 
-  init(remoteSourceFactory: RemoteChatDataSourceFactory) {
+  init(remoteSourceFactory: RemoteChatSourceFactory) {
     self.remoteSourceFactory = remoteSourceFactory
     observeSettings()
   }
@@ -56,7 +43,7 @@ final class LiveChatRepository {
     sourceTask?.cancel()
     latestValue = nil
 
-    remoteSource = try? remoteSourceFactory.makeDataSource(with: settings)
+    remoteSource = try? remoteSourceFactory.makeChatSource(with: settings)
 
     if !subscribers.isEmpty {
       startObservingSource()
@@ -113,4 +100,3 @@ final class LiveChatRepository {
     }
   }
 }
-
