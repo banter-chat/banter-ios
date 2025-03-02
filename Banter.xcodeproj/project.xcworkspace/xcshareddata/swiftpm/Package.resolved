@@ -1,5 +1,5 @@
 {
-  "originHash" : "2d63481cb49f797d9ae097ab31aea5440440e0af46a4ab3cd54e0a01b90a2803",
+  "originHash" : "5e4d225f2524e328c4fcc15bba67cb097e63da4c1b149dfc0f9b0025e52d4593",
   "pins" : [
     {
       "identity" : "bigint",
@@ -202,10 +202,10 @@
     {
       "identity" : "web3.swift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Boilertalk/Web3.swift.git",
+      "location" : "https://github.com/andreichenchik/Web3.swift",
       "state" : {
-        "revision" : "b85187ddf230a10b04fa8574c44980f3369ddff5",
-        "version" : "0.8.8"
+        "branch" : "fix-failed-websocket-crash",
+        "revision" : "ea6b51eedd8a42758481a3800e5019482a251452"
       }
     },
     {
