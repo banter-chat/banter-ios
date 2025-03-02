@@ -24,12 +24,15 @@ final class SettingsModel: ObservableObject {
   }
 
   var walletAddress: String? {
-    let key = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex)
-    return key?.address.hex(eip55: true)
+      guard let key = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex) else {
+          return nil
+      }
+    return key.address.hex(eip55: true)
   }
 
   func copyWalletAddressTapped() {
     UIPasteboard.general.string = walletAddress
+      print(walletAddress)
   }
 
   func generateNewAddressTapped() {
@@ -37,4 +40,5 @@ final class SettingsModel: ObservableObject {
     $walletKeyHex.withLock { $0 = key.hex() }
     $settings.withLock { $0.web3.userAddress = key.address.hex(eip55: true) }
   }
+    
 }
