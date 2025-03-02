@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// A mock implementation of the `MessageRepository` protocol for use in SwiftUI previews,
+/// A mock implementation of the `ChatMessageRepository` protocol for use in SwiftUI previews,
 /// view development, and testing.
 ///
 /// This implementation provides:
@@ -32,7 +32,7 @@ import Foundation
 ///     }
 /// }
 /// ```
-final class MockMessageRepository: MessageRepository {
+final class MockMessageRepository: ChatMessageRepository {
   // MARK: - Properties
 
   /// Collection of mock messages for testing
@@ -83,7 +83,7 @@ final class MockMessageRepository: MessageRepository {
     streamContinuation?.finish()
   }
 
-  // MARK: - MessageRepository Implementation
+  // MARK: - ChatMessageRepository Implementation
 
   func getMessages(before: Date? = nil, limit: Int) async throws -> [ChatMessage] {
     // Simulate network delay

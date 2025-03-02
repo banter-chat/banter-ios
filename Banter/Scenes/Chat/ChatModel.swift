@@ -20,7 +20,7 @@ protocol ChatModelProtocol: AnyObject{
 }
 
 final class ChatModel: ChatModelProtocol {
-    //private let mockData: MessageRepository = MockMessageRepository()
+    //private let mockData: ChatMessageRepository = MockMessageRepository()
     var chatAddress: String
     var selfSender: Sender
     var messages: [Message] = []{
