@@ -1,5 +1,5 @@
 {
-  "originHash" : "5e4d225f2524e328c4fcc15bba67cb097e63da4c1b149dfc0f9b0025e52d4593",
+  "originHash" : "ed851ea0cae19e70632cae58c3dc993fafd276c8fce59d116fd832c6a291087f",
   "pins" : [
     {
       "identity" : "bigint",
@@ -26,6 +26,24 @@
       "state" : {
         "revision" : "729e01bc9b9dab466ac85f21fb9ee2bc1c61b258",
         "version" : "1.8.4"
+      }
+    },
+    {
+      "identity" : "inputbaraccessoryview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nathantannar4/InputBarAccessoryView",
+      "state" : {
+        "revision" : "dfdc822b0d4a0d1b5777100347c399069e9bfc62",
+        "version" : "7.0.0"
+      }
+    },
+    {
+      "identity" : "messagekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/MessageKit/MessageKit",
+      "state" : {
+        "revision" : "dc48356f830d40de5acc0e126a44257d0a1329b6",
+        "version" : "5.0.0"
       }
     },
     {
@@ -229,10 +247,10 @@
     {
       "identity" : "web3.swift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/andreichenchik/Web3.swift",
+      "location" : "https://github.com/Boilertalk/Web3.swift",
       "state" : {
-        "branch" : "fix-failed-websocket-crash",
-        "revision" : "ea6b51eedd8a42758481a3800e5019482a251452"
+        "revision" : "b85187ddf230a10b04fa8574c44980f3369ddff5",
+        "version" : "0.8.8"
       }
     },
     {

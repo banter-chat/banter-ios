@@ -35,7 +35,6 @@ final class LiveChatRepository {
   private var remoteSource: RemoteChatDataSource?
   private var settingsObservation: AnyCancellable?
 
-  #warning("Concurrent access to subscribers")
   private var subscribers: [UUID: AsyncStream<[Chat]>.Continuation] = [:]
   private var sourceTask: Task<Void, Never>?
   private var latestValue: [Chat]?
