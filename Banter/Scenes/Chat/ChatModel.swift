@@ -13,18 +13,21 @@ final class ChatModel {
   var chatAddress: String
   var messages: [String] = []
   var newMessage = ""
-  var isSubscribed = false
+
+  let repo: MessageRepository = MockMessageRepository()
 
   init(chatAddress: String) {
     self.chatAddress = chatAddress
   }
 
-  func viewAppeared() {
-    guard !isSubscribed else { return }
-    isSubscribed = true
-    getMessages(chatAddress: chatAddress) { [weak self] message in
-      DispatchQueue.main.async {
-        self?.messages.insert(message, at: 0)
+  func viewAppeared() async {
+    let chatMessages = try! await repo.getMessages(before: nil, limit: 10)
+    self.messages = chatMessages.map(\.content)
+
+    for await updates in repo.observeMessageUpdates() {
+      switch updates {
+      case .added(let message):
+        messages.append(message.content)
       }
     }
   }
