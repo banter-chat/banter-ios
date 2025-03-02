@@ -14,7 +14,6 @@ import Web3
 final class SettingsModel: ObservableObject {
   @ObservationIgnored @Shared(.userSettings) var settings
   @ObservationIgnored @Shared(.walletKeyHex) var walletKeyHex
-    @ObservationIgnored @Shared(.userAdressKeyHex) var userAdressKeyHex
 
   var isReadyToChat: Bool {
     !settings.web3.rpcWSURL.isEmpty
@@ -28,7 +27,6 @@ final class SettingsModel: ObservableObject {
       guard let key = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex) else {
           return nil
       }
-    $userAdressKeyHex.withLock { $0 = key.hex() }
     return key.address.hex(eip55: true)
   }
 

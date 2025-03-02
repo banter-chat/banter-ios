@@ -10,32 +10,17 @@ import SwiftUI
 import MessageKit
 import Sharing
 
-struct MockMessageRepository: MessageRepository {
-    func getMessages(id: String) -> [Message] {
-        [
-            Message(sender: Sender(senderId: "selfAdress", displayName: "Self"), messageId: UUID().uuidString, sentDate: Date().addingTimeInterval(-1), kind: .text("Lorem ipsum dolor sit amet, consectetur adipisicing elit")),
-            
-            Message(sender: Sender(senderId: "2", displayName: "Other"), messageId: UUID().uuidString, sentDate: Date().addingTimeInterval(-3600), kind: .text("Lorem ipsum dolor sit amet, consectetur ")),
-            
-            Message(sender: Sender(senderId: "selfAdress", displayName: "Self"), messageId: UUID().uuidString, sentDate: Date().addingTimeInterval(-7200), kind: .text("Lorem ipsum dolor t")),
-            
-            Message(sender: Sender(senderId: "2", displayName: "Other"), messageId: UUID().uuidString, sentDate: Date().addingTimeInterval(-8000), kind: .text("Lorem ipsum dolor sit amet")),
-        ]
-    }
-    
-}
 
 @Observable
 final class ChatModel {
-    private let mockData: MessageRepository = MockMessageRepository()
+    //private let mockData: MessageRepository = MockMessageRepository()
     var chatAddress: String
     var selfSender: Sender
     var messages: [Message] = []
     var isSubscribed = false
-    
+    let mockRepo = MockMessageRepository(mockMessages: [])
 
   init(chatAddress: String) {
-    @Shared(.userAdressKeyHex) var userAdressKeyHex
     self.chatAddress = chatAddress
       
     ///`self.selfSender = Sender(senderId: userAdressKeyHex, displayName: "Self")`
@@ -47,10 +32,25 @@ final class ChatModel {
 
     func viewAppeared() {
         Task{
-            self.messages = try await mockData.getMessages(id: chatAddress)
+            let mockMessage = try await self.mockRepo.getMessages(limit: 10)
+            let messages = mockMessage.map {
+                return self.covertMessage(from: $0)
+            }
+            
+            self.messages = messages
+            
+            for await updates in mockRepo.observeMessageUpdates() {
+                  switch updates {
+                  case .added(let message):
+                      self.messages.append(covertMessage(from: message))
+                      print(message)
+                  }
+            }
         }
-        
   }
+    private func covertMessage(from message: ChatMessage) -> Message{
+        return Message(sender: message.senderId == "selfAdress" ? self.selfSender : Sender(senderId: message.senderId, displayName: "Other"), messageId: message.id, sentDate: message.timestamp, kind: .text(message.content))
+    }
     
     func sendMessageTapped(message: Message) {
         self.messages.append(message)

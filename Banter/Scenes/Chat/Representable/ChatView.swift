@@ -16,7 +16,7 @@ struct ChatView: UIViewControllerRepresentable{
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        
+        print("update")
     }
     
    
