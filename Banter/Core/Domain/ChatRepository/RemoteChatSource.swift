@@ -14,7 +14,5 @@ protocol RemoteChatSource {
   /// Observes all chats from the remote service, emitting updates when changes occur.
   ///
   /// - Returns: A stream of chat arrays representing the current state on the server.
-  /// - Important: The stream may disconnect if network conditions change. The implementation
-  ///   should handle reconnection internally.
   func observeChats() -> AsyncStream<[Chat]>
 }

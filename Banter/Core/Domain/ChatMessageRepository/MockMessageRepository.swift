@@ -42,7 +42,7 @@ final class MockMessageRepository: ChatMessageRepository {
   private var timer: Timer?
 
   /// Continuation for the message update stream
-  private var streamContinuation: AsyncStream<MessageUpdate>.Continuation?
+  private var streamContinuation: AsyncStream<ChatMessageUpdate>.Continuation?
 
   /// Random names to use for generated senders
   private let senderNames = [
@@ -100,8 +100,8 @@ final class MockMessageRepository: ChatMessageRepository {
     }
   }
 
-  func observeMessageUpdates() -> AsyncStream<MessageUpdate> {
-    return AsyncStream<MessageUpdate> { continuation in
+  func observeMessageUpdates() -> AsyncStream<ChatMessageUpdate> {
+    return AsyncStream<ChatMessageUpdate> { continuation in
       self.streamContinuation = continuation
 
       // Allow for cancellation

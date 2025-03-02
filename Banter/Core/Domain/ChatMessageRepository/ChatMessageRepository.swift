@@ -26,7 +26,7 @@ import Foundation
 ///         before: oldestTimestamp,
 ///         limit: 30
 ///     )
-/// }`
+/// }
 /// ```
 protocol ChatMessageRepository {
   /// Retrieves chat messages with pagination support.
@@ -51,7 +51,7 @@ protocol ChatMessageRepository {
   /// This method returns an `AsyncStream` that emits events whenever a message is added to the chat.
   /// The stream continues until it's explicitly cancelled or the associated task is cancelled.
   ///
-  /// - Returns: An `AsyncStream` of `MessageUpdate` events. Currently, this includes message additions,
+  /// - Returns: An `AsyncStream` of `ChatMessageUpdate` events. Currently, this includes message additions,
   ///   with support for future update types like edits and deletions.
   ///
   /// ## Example
@@ -73,5 +73,5 @@ protocol ChatMessageRepository {
   /// // Later, cancel the observation
   /// task.cancel()
   /// ```
-  func observeMessageUpdates() -> AsyncStream<MessageUpdate>
+  func observeMessageUpdates() -> AsyncStream<ChatMessageUpdate>
 }
