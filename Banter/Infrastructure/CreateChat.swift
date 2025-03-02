@@ -12,50 +12,34 @@ import Web3ContractABI
 import Web3PromiseKit
 
 func createChat(recipient: String) {
-  @Shared(.rpcWSURL) var rpcWSURL
-  @Shared(.chainId) var chainId
-  @Shared(.chatListAddress) var chatListAddress
+  @Shared(.userSettings) var settings
   @Shared(.walletKeyHex) var walletKeyHex
 
+  let wsUrl = settings.web3.rpcWSURL
+  let contractAddress = settings.web3.contractAddress
+  let chainId = settings.web3.chainId
+
   guard
-    let web3 = try? Web3(wsUrl: rpcWSURL),
-    let contractAddress = try? EthereumAddress(hex: chatListAddress, eip55: false),
+    let web3 = try? Web3(wsUrl: wsUrl),
+    let contractAddress = try? EthereumAddress(hex: contractAddress, eip55: false),
     let callerKey = try? EthereumPrivateKey(hexPrivateKey: walletKeyHex),
     let recipient = try? EthereumAddress(hex: recipient, eip55: false),
-    !chainId.isEmpty, let chainId = Int(chainId), let chainId = BigUInt(exactly: chainId)
+    let chainId = UInt64(chainId)
   else { return }
 
-  let contract = web3.eth.Contract(
-    type: ChatListContract.self,
-    address: contractAddress
-  )
+  let web3Wrapper = Web3AsyncAdapter(web3: web3)
 
-  firstly {
-    web3.eth.getTransactionCount(address: callerKey.address, block: .latest)
-  }.then { nonce in
-    try contract
-      .createChat(recipient: recipient)
-      .createTransaction(
-        nonce: nonce,
-        gasPrice: EthereumQuantity(quantity: 21.gwei),
-        maxFeePerGas: EthereumQuantity(quantity: 21.gwei),
-        maxPriorityFeePerGas: EthereumQuantity(quantity: 21.gwei),
-        gasLimit: 1_000_000,
-        from: callerKey.address,
-        value: 0,
-        accessList: [:],
-        transactionType: .eip1559
-      )!
-      .sign(
-        with: callerKey,
-        chainId: EthereumQuantity(quantity: chainId)
-      )
-      .promise
-  }.then { transaction in
-    web3.eth.sendRawTransaction(transaction: transaction)
-  }.done { hash in
-    print("Created in transaction \(hash.hex())")
-  }.catch { error in
-    print("Error creating chat: \(error)")
+  let contract = ChatListContract(address: contractAddress, eth: web3.eth)
+
+  let client = BasicWeb3Client(web3: web3Wrapper, chainId: chainId)
+  let key = BasicWeb3WalletKey(privateKey: callerKey)
+  let invocation = contract.createChat(recipient: recipient)
+
+  Task {
+    do {
+      try await client.send(invocation, key: key)
+    } catch {
+      print("Error creating chat: \(error)")
+    }
   }
 }

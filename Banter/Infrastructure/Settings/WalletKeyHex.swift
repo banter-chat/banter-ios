@@ -1,4 +1,4 @@
-// BanterTests.swift is a part of Banter project
+// WalletKeyHex.swift is a part of Banter project
 //
 // Created by Andrei Chenchik (andrei@chenchik.me), 21/2/25
 // Copyright © 2025 Andrei Chenchik, Inc. All rights reserved.
@@ -6,11 +6,11 @@
 // Proprietary and confidential
 //
 
-@testable import Banter
-import Testing
+import Sharing
 
-struct BanterTests {
-  @Test func example() async throws {
-    // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+extension SharedReaderKey
+  where Self == AppStorageKey<String>.Default {
+  static var walletKeyHex: Self {
+    Self[.appStorage("walletKeyHex"), default: ""]
   }
 }

@@ -10,15 +10,6 @@ import Sharing
 import SwiftUI
 import Web3
 
-struct MockRepo: ChatRepository {
-  func getChats() -> [Chat] {
-    [
-      Chat(id: "1", title: "Chat 1"),
-      Chat(id: "2", title: "Chat 2")
-    ]
-  }
-}
-
 struct ChatDisplay {
   var id: String
   var content: String
@@ -32,7 +23,9 @@ struct ChatDisplay {
 @Observable
 final class ChatListModel {
   @ObservationIgnored @Shared(.walletKeyHex) var walletKeyHex
-    private let mock: ChatRepository = MockRepo()
+
+  let repo = LiveChatRepository(remoteSourceFactory: Web3ChatSourceFactory())
+
   var chats: [Chat] = []
   var isSubscribed = false
   var newChatAddress = ""
@@ -46,22 +39,10 @@ final class ChatListModel {
     UIPasteboard.general.string = walletAddress
   }
 
-    /// Вернул чаты из мок
-    /// Получение из блока пока закоментил, потом когда вся логика
-    /// будет готова останется ее тут прописать
-  func viewAppeared() {
-      Task{
-          self.chats = try await mock.getChats()
-      }
-      
-//    guard !isSubscribed else { return }
-//    isSubscribed = true
-//    getChats { [weak self] newChat in
-//      DispatchQueue.main.async {
-//        let chat = Chat(id: newChat)
-//        self?.chats.append(chat)
-//      }
-//    }
+  func viewAppeared() async {
+    for await chats in repo.observeChats() {
+      self.chats = chats
+    }
   }
 
   func createNewChat() {
