@@ -9,8 +9,8 @@
 import Foundation
 import Web3
 
-struct Web3ChatSourceFactory: RemoteChatDataSourceFactory {
-  func makeDataSource(with settings: UserSettings) throws -> RemoteChatDataSource {
+struct Web3ChatSourceFactory: RemoteChatSourceFactory {
+  func makeDataSource(with settings: UserSettings) throws -> RemoteChatSource {
     guard
       let chainId = UInt64(settings.web3.chainId)
     else {

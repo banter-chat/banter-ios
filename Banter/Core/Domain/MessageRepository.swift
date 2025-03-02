@@ -14,7 +14,7 @@ import Foundation
 ///
 /// ## Usage Example
 ///
-/// ```swift
+/// ```swiftz
 /// let repository: MessageRepository = /* repository implementation */
 ///
 /// // Get the most recent messages
@@ -26,7 +26,7 @@ import Foundation
 ///         before: oldestTimestamp,
 ///         limit: 30
 ///     )
-/// }
+/// }`
 /// ```
 protocol MessageRepository {
   /// Retrieves chat messages with pagination support.
