@@ -8,5 +8,7 @@
 
 struct Chat: Identifiable {
   var id: String
+  var authorId: String
+  var recipientId: String
   var title: String?
 }

@@ -12,17 +12,15 @@ import Web3
 
 @Observable
 final class SettingsModel: ObservableObject {
-  @ObservationIgnored @Shared(.rpcWSURL) var rpcWSURL
-  @ObservationIgnored @Shared(.chainId) var chainId
-  @ObservationIgnored @Shared(.chatListAddress) var chatListAddress
+  @ObservationIgnored @Shared(.userSettings) var settings
   @ObservationIgnored @Shared(.walletKeyHex) var walletKeyHex
 
   var isReadyToChat: Bool {
-    !rpcWSURL.isEmpty
-      && !chatListAddress.isEmpty
+    !settings.web3.rpcWSURL.isEmpty
+      && !settings.web3.contractAddress.isEmpty
       && !walletKeyHex.isEmpty
-      && !chainId.isEmpty
-      && Int(chainId) != nil
+      && !settings.web3.chainId.isEmpty
+      && Int(settings.web3.chainId) != nil
   }
 
   var walletAddress: String? {
@@ -37,5 +35,6 @@ final class SettingsModel: ObservableObject {
   func generateNewAddressTapped() {
     guard let key = try? EthereumPrivateKey() else { return }
     $walletKeyHex.withLock { $0 = key.hex() }
+    $settings.withLock { $0.web3.userAddress = key.address.hex(eip55: true) }
   }
 }

@@ -31,7 +31,7 @@ struct ChatView: View {
       }
     }
     .task {
-      model.viewAppeared()
+      await model.viewAppeared()
     }
     .toolbar {
       Button("Send Message") { isShowingAlert = true }

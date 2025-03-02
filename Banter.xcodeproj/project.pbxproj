@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		750DD2A32D68C59A000F28CB /* Sharing in Frameworks */ = {isa = PBXBuildFile; productRef = 750DD2A22D68C59A000F28CB /* Sharing */; };
-		750DD2AD2D68E092000F28CB /* Web3PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 750DD2AC2D68E092000F28CB /* Web3PromiseKit */; };
-		75C2CE4B2D6886DA0050B8FB /* Web3 in Frameworks */ = {isa = PBXBuildFile; productRef = 75C2CE4A2D6886DA0050B8FB /* Web3 */; };
-		75C2CE4D2D6886DA0050B8FB /* Web3ContractABI in Frameworks */ = {isa = PBXBuildFile; productRef = 75C2CE4C2D6886DA0050B8FB /* Web3ContractABI */; };
+		75F913FD2D743E83004B72DA /* Web3 in Frameworks */ = {isa = PBXBuildFile; productRef = 75F913FC2D743E83004B72DA /* Web3 */; };
+		75F913FF2D743E83004B72DA /* Web3ContractABI in Frameworks */ = {isa = PBXBuildFile; productRef = 75F913FE2D743E83004B72DA /* Web3ContractABI */; };
+		75F914012D743E83004B72DA /* Web3PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 75F914002D743E83004B72DA /* Web3PromiseKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,10 +46,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75F913FF2D743E83004B72DA /* Web3ContractABI in Frameworks */,
 				750DD2A32D68C59A000F28CB /* Sharing in Frameworks */,
-				75C2CE4D2D6886DA0050B8FB /* Web3ContractABI in Frameworks */,
-				750DD2AD2D68E092000F28CB /* Web3PromiseKit in Frameworks */,
-				75C2CE4B2D6886DA0050B8FB /* Web3 in Frameworks */,
+				75F914012D743E83004B72DA /* Web3PromiseKit in Frameworks */,
+				75F913FD2D743E83004B72DA /* Web3 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,10 +109,10 @@
 			);
 			name = Banter;
 			packageProductDependencies = (
-				75C2CE4A2D6886DA0050B8FB /* Web3 */,
-				75C2CE4C2D6886DA0050B8FB /* Web3ContractABI */,
 				750DD2A22D68C59A000F28CB /* Sharing */,
-				750DD2AC2D68E092000F28CB /* Web3PromiseKit */,
+				75F913FC2D743E83004B72DA /* Web3 */,
+				75F913FE2D743E83004B72DA /* Web3ContractABI */,
+				75F914002D743E83004B72DA /* Web3PromiseKit */,
 			);
 			productName = Banter;
 			productReference = 75C2CE1C2D6886810050B8FB /* Banter.app */;
@@ -170,8 +170,8 @@
 			mainGroup = 75C2CE132D6886810050B8FB;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */,
 				750DD2A02D68C57A000F28CB /* XCRemoteSwiftPackageReference "swift-sharing" */,
+				75F913FB2D743E83004B72DA /* XCRemoteSwiftPackageReference "Web3" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 75C2CE1D2D6886810050B8FB /* Products */;
@@ -414,7 +414,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = UM3QPHF8E3;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.chenchik.BanterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -433,7 +433,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = UM3QPHF8E3;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.chenchik.BanterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -485,12 +485,12 @@
 				minimumVersion = 2.3.1;
 			};
 		};
-		75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */ = {
+		75F913FB2D743E83004B72DA /* XCRemoteSwiftPackageReference "Web3" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Boilertalk/Web3.swift.git";
+			repositoryURL = "https://github.com/andreichenchik/Web3.swift";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.8.8;
+				branch = "fix-failed-websocket-crash";
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -501,20 +501,20 @@
 			package = 750DD2A02D68C57A000F28CB /* XCRemoteSwiftPackageReference "swift-sharing" */;
 			productName = Sharing;
 		};
-		750DD2AC2D68E092000F28CB /* Web3PromiseKit */ = {
+		75F913FC2D743E83004B72DA /* Web3 */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */;
-			productName = Web3PromiseKit;
-		};
-		75C2CE4A2D6886DA0050B8FB /* Web3 */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */;
+			package = 75F913FB2D743E83004B72DA /* XCRemoteSwiftPackageReference "Web3" */;
 			productName = Web3;
 		};
-		75C2CE4C2D6886DA0050B8FB /* Web3ContractABI */ = {
+		75F913FE2D743E83004B72DA /* Web3ContractABI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 75C2CE492D6886DA0050B8FB /* XCRemoteSwiftPackageReference "Web3.swift" */;
+			package = 75F913FB2D743E83004B72DA /* XCRemoteSwiftPackageReference "Web3" */;
 			productName = Web3ContractABI;
+		};
+		75F914002D743E83004B72DA /* Web3PromiseKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 75F913FB2D743E83004B72DA /* XCRemoteSwiftPackageReference "Web3" */;
+			productName = Web3PromiseKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

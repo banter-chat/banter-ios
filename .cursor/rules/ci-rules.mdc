@@ -1,0 +1,6 @@
+---
+description: Rules for interacting with the project
+globs: 
+alwaysApply: true
+---
+- Run tests after any changes to the project files by `just test-client`
