@@ -12,6 +12,8 @@ struct ChatListView: View {
   @State var isShowingAlert = false
   @State var model = ChatListModel()
 
+  let onChatOpen: (String) -> Void
+
   var body: some View {
     Form {
       Section {
@@ -31,10 +33,9 @@ struct ChatListView: View {
 
       Section("Conversations") {
         ForEach(model.chats) { chat in
-          NavigationLink(
-            chat.title ?? chat.id,
-            destination: ChatView(chatAddress: chat.id)
-          )
+          Button(chat.title ?? chat.id) {
+            onChatOpen(chat.id)
+          }
           .lineLimit(1)
         }
       }
@@ -59,7 +60,7 @@ struct ChatListView: View {
 #if DEBUG
   #Preview {
     NavigationStack {
-      ChatListView()
+      ChatListView(onChatOpen: { _ in })
     }
   }
 #endif

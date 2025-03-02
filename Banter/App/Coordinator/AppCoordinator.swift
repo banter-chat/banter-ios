@@ -4,13 +4,13 @@
 // Copyright © 2025 Andrei Chenchik, Inc. All rights reserved.
 // Unauthorized copying of this file, via any medium is strictly prohibited
 // Proprietary and confidential
-// 
+//
 
 import SwiftUI
 
 enum Route: Hashable {
-    case chat(chatAddress: String)
-    case chatList
+  case chat(chatAddress: String)
+  case chatList
 }
 
 @Observable
@@ -23,6 +23,10 @@ final class AppCoordinator {
 
   func openChatList() {
     path.append(Route.chatList)
+  }
+
+  func openChat(chatAddress: String) {
+    path.append(Route.chat(chatAddress: chatAddress))
   }
 
   func goToRoot() {

@@ -18,7 +18,7 @@ struct AppCoordinatorView: View {
         .navigationDestination(for: Route.self) { route in
           switch route {
           case .chatList:
-            factory.makeChatListView()
+            factory.makeChatListView { coordinator.openChat(chatAddress: $0) }
           case let .chat(chatId):
             factory.makeChatView(address: chatId)
           }

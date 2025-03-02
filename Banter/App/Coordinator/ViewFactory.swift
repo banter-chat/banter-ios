@@ -7,8 +7,8 @@
 //
 
 struct ViewFactory {
-  func makeChatListView() -> ChatListView {
-    ChatListView()
+  func makeChatListView(onChatOpen: @escaping (String) -> Void) -> ChatListView {
+    ChatListView(onChatOpen: onChatOpen)
   }
 
   func makeChatView(address: String) -> ChatView {
