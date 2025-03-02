@@ -11,6 +11,8 @@ import SwiftUI
 struct SettingsView: View {
   @State private var model = SettingsModel()
 
+  let openChatList: () -> Void
+
   var body: some View {
     Form {
       Section("Node settings") {
@@ -40,7 +42,9 @@ struct SettingsView: View {
       }
 
       Section {
-        NavigationLink(destination: ChatListView()) {
+        Button {
+          openChatList()
+        } label: {
           Label("Chat List", systemImage: "message")
         }
         .disabled(!model.isReadyToChat)
@@ -54,6 +58,6 @@ struct SettingsView: View {
 
 #Preview {
   NavigationStack {
-    SettingsView()
+    SettingsView(openChatList: {})
   }
 }
