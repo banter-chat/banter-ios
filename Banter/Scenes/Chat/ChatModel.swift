@@ -31,15 +31,11 @@ final class ChatModel: ChatModelProtocol {
 
   weak var view: ChatViewContentProtocol?
 
-  init(chatAddress: String, view: ChatViewContentProtocol, repo: ChatMessageRepository) {
+init(senderId: String ,chatAddress: String, view: ChatViewContentProtocol, repo: ChatMessageRepository) {
     self.chatAddress = chatAddress
     self.view = view
     self.repo = repo
-    /// `self.selfSender = Sender(senderId: userAdressKeyHex, displayName: "Self")`
-    /// этот код с установкой адреса в качестве id отправителя
-    /// но пока оставил мок данные, потом просто надо будет раскоментить
-    /// и убрать нижнюю строку
-    self.selfSender = Sender(senderId: "selfAdress", displayName: "Self")
+    self.selfSender = Sender(senderId: senderId, displayName: "Self")
   }
 
   func viewAppeared() {
@@ -61,7 +57,7 @@ final class ChatModel: ChatModelProtocol {
   }
 
   private func covertMessage(from message: ChatMessage) -> Message {
-    Message(sender: message.senderId == "selfAdress" ? selfSender : Sender(senderId: message.senderId, displayName: "Other"), messageId: message.id, sentDate: message.timestamp, kind: .text(message.content))
+      Message(sender: message.senderId == selfSender.senderId.lowercased() ? selfSender : Sender(senderId: message.senderId, displayName: "Other"), messageId: message.id, sentDate: message.timestamp, kind: .text(message.content))
   }
 
   func sendMessageTapped(message: Message) {
