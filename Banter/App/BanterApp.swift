@@ -12,9 +12,7 @@ import SwiftUI
 struct BanterApp: App {
   var body: some Scene {
     WindowGroup {
-      NavigationStack {
-        SettingsView()
-      }
+      AppCoordinatorView()
     }
   }
 }
