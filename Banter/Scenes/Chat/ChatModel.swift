@@ -47,8 +47,6 @@ init(senderId: String ,chatAddress: String, view: ChatViewContentProtocol, repo:
 
         if !allMessage.isEmpty {
             self.messages = messages.sorted { $0.sentDate < $1.sentDate }
-        } else {
-            self.messages = messages
         }
       
 
