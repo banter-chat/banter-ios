@@ -44,11 +44,8 @@ init(senderId: String ,chatAddress: String, view: ChatViewContentProtocol, repo:
       let messages = allMessage.map {
         self.covertMessage(from: $0)
       }
-
-        if !allMessage.isEmpty {
-            self.messages = messages.sorted { $0.sentDate < $1.sentDate }
-        }
-      
+        
+    self.messages = messages
 
       for await updates in repo.observeMessageUpdates() {
         switch updates {
