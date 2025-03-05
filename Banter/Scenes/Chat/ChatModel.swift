@@ -40,12 +40,12 @@ init(senderId: String ,chatAddress: String, view: ChatViewContentProtocol, repo:
 
   func viewAppeared() {
     Task {
-      let mockMessage = try await self.repo.getMessages(before: nil, limit: 10)
-      let messages = mockMessage.map {
+        let allMessage = try await self.repo.getMessages(before: nil, limit: 10)
+      let messages = allMessage.map {
         self.covertMessage(from: $0)
       }
-
-      self.messages = messages
+        
+    self.messages = messages
 
       for await updates in repo.observeMessageUpdates() {
         switch updates {

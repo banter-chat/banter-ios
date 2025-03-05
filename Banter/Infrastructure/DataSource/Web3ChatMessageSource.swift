@@ -32,7 +32,7 @@ struct Web3ChatMessageSource: RemoteChatMessageSource {
     let messages = events.compactMap(ChatMessage.init)
 
     // Sort messages by timestamp (newest first)
-    return messages.sorted { $0.timestamp > $1.timestamp }
+    return messages.sorted { $0.timestamp < $1.timestamp }
   }
 
   func observeUpdates() -> AsyncStream<ChatMessageUpdate> {
