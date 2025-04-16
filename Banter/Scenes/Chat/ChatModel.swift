@@ -61,7 +61,14 @@ init(senderId: String ,chatAddress: String, view: ChatViewContentProtocol, repo:
   }
 
   func sendMessageTapped(message: Message) {
-    guard case let .text(content) = message.kind else { return }
-    sendMessage(address: chatAddress, message: content)
+      //Боевая версия
+      //guard case let .text(content) = message.kind else { return }
+    //sendMessage(address: chatAddress, message: content)
+      //Mock версия
+      sendMockMessage(message: message)
   }
+    
+    func sendMockMessage(message: Message){
+        self.messages.append(message)
+    }
 }
