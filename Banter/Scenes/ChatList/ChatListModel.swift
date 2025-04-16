@@ -26,6 +26,7 @@ final class ChatListModel {
 
   let repo = LiveChatRepository(remoteSourceFactory: Web3SourceFactory())
 
+    let mockRepo = MockChatRepository()
   var chats: [Chat] = []
   var isSubscribed = false
   var newChatAddress = ""
@@ -40,7 +41,7 @@ final class ChatListModel {
   }
 
   func viewAppeared() async {
-    for await chats in repo.observeChats() {
+    for await chats in mockRepo.observeChats() {
       self.chats = chats
     }
   }
