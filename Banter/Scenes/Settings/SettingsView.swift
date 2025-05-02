@@ -47,7 +47,7 @@ struct SettingsView: View {
         } label: {
           Label("Chat List", systemImage: "message")
         }
-        .disabled(!model.isReadyToChat)
+        //.disabled(!model.isReadyToChat)
       } footer: {
         Text("Make sure to top up your balance")
       }

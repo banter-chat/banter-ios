@@ -16,11 +16,16 @@ struct ChatView: UIViewControllerRepresentable {
 
   func makeUIViewController(context _: Context) -> UIViewController {
     let vc = ChatViewContent()
-    let factory = Web3SourceFactory()
-    #warning("Fix this force unwrap")
-    let source = try! factory.makeMessageSource(with: settings, chatAddress: chatAdress)
-    let repo = LiveChatMessageRepository(remoteSource: source)
-      let model = ChatModel(senderId: settings.web3.userAddress, chatAddress: chatAdress, view: vc, repo: repo)
+    
+      //Подключить после, на этапе мок эти данные не нужны
+      //------
+    //let factory = Web3SourceFactory()
+    //#warning("Fix this force unwrap")
+    //let source = try! factory.makeMessageSource(with: settings, chatAddress: chatAdress)
+      //------
+    let repo = MockMessageRepository() //LiveChatMessageRepository(remoteSource: source)
+      let senderID = settings.web3.userAddress
+      let model = ChatModel(senderId: "user1", chatAddress: chatAdress, view: vc, repo: repo)
     vc.model = model
     return vc
   }
