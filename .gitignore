@@ -5,3 +5,6 @@
 
 # SweetPad
 buildServer.json
+
+xcuserdata/
+*.xcuserstate
