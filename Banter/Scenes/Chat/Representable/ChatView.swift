@@ -23,7 +23,7 @@ struct ChatView: UIViewControllerRepresentable {
     //#warning("Fix this force unwrap")
     //let source = try! factory.makeMessageSource(with: settings, chatAddress: chatAdress)
       //------
-    let repo = MockMessageRepository() //LiveChatMessageRepository(remoteSource: source)
+    let rep o = MockMessageRepository() //LiveChatMessageRepository(remoteSource: source)
       let senderID = settings.web3.userAddress
       let model = ChatModel(senderId: "user1", chatAddress: chatAdress, view: vc, repo: repo)
     vc.model = model

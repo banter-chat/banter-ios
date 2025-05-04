@@ -24,9 +24,7 @@ struct ChatDisplay {
 final class ChatListModel {
   @ObservationIgnored @Shared(.walletKeyHex) var walletKeyHex
 
-  let repo = LiveChatRepository(remoteSourceFactory: Web3SourceFactory())
-
-    let mockRepo = MockChatRepository()
+  let repo = MockChatRepository()
   var chats: [Chat] = []
   var isSubscribed = false
   var newChatAddress = ""
@@ -41,7 +39,7 @@ final class ChatListModel {
   }
 
   func viewAppeared() async {
-    for await chats in mockRepo.observeChats() {
+    for await chats in repo.observeChats() {
       self.chats = chats
     }
   }
