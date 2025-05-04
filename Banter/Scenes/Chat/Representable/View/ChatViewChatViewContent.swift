@@ -61,9 +61,12 @@ extension ChatViewContent: MessagesDataSource{
         model.messages[indexPath.section]
     }
     
+    
+    
     func numberOfSections(in messagesCollectionView: MessageKit.MessagesCollectionView) -> Int {
         model.messages.count
     }
+    
     
 }
 
@@ -98,5 +101,4 @@ extension ChatViewContent:MessagesDisplayDelegate, MessagesLayoutDelegate{
     func avatarSize(for message: any MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGSize? {
         .zero
     }
-    
 }
