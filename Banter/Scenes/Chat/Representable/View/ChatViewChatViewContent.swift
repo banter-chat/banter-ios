@@ -39,8 +39,7 @@ class ChatViewContent: MessagesViewController, ChatViewContentProtocol {
     }
     private func insertMessage(message: Message){
         messagesCollectionView.reloadData()
-        //self.model.messages.append(message)
-        model.sendMessageTapped(message: message)
+       model.sendMessageTapped(message: message)
     }
     
     func updateChat() {

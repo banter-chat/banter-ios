@@ -24,8 +24,7 @@ struct ChatDisplay {
 final class ChatListModel {
   @ObservationIgnored @Shared(.walletKeyHex) var walletKeyHex
 
-  let repo = LiveChatRepository(remoteSourceFactory: Web3SourceFactory())
-
+  let repo = MockChatRepository()
   var chats: [Chat] = []
   var isSubscribed = false
   var newChatAddress = ""
