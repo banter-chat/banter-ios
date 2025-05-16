@@ -30,13 +30,14 @@ struct ChatListView: View {
       } footer: {
         Text("Tap to copy")
       }
-
+        
       Section("Conversations") {
         ForEach(model.chats) { chat in
           Button(chat.title ?? chat.id) {
             onChatOpen(chat.id)
           }
           .lineLimit(1)
+          //.font(.regular, size: 17)
         }
       }
     }
