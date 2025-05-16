@@ -29,9 +29,22 @@
 		75C2CE2C2D6886830050B8FB /* BanterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BanterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A8A2A1F42DD70BB300B26E7F /* Exceptions for "Banter" folder in "Banter" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 75C2CE1B2D6886810050B8FB /* Banter */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		75C2CE1E2D6886810050B8FB /* Banter */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A8A2A1F42DD70BB300B26E7F /* Exceptions for "Banter" folder in "Banter" target */,
+			);
 			path = Banter;
 			sourceTree = "<group>";
 		};
@@ -361,6 +374,7 @@
 				DEVELOPMENT_TEAM = UM3QPHF8E3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Banter/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -391,6 +405,7 @@
 				DEVELOPMENT_TEAM = UM3QPHF8E3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Banter/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
