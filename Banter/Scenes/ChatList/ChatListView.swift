@@ -55,10 +55,15 @@ struct ChatListView: View {
           .background(.appBG)
           .zIndex(1)
           ScrollView{
-              VStack(alignment: .leading, spacing: 25){
-                  
+              VStack(alignment: .leading, spacing: 15){
+                  ForEach(model.chats) { chat in
+                    ChatItemView(chatItem: chat)
+                          .onTapGesture {
+                              //
+                          }
+                  }
               }
-              .padding(.top, 45)
+              .padding(.top, 55)
               
           }
       }

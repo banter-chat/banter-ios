@@ -24,7 +24,7 @@ struct ChatItemView: View {
             }
             Spacer()
             VStack(spacing: 9){
-                Text("12:31")
+                Text(chatItem.date.toTimeString())
                     .font(font: .black, size: 13)
                     .foregroundStyle(.white)
                 Circle()
