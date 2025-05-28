@@ -6,11 +6,13 @@
 // Proprietary and confidential
 //
 
+import Foundation
+
 struct Chat: Identifiable {
   var id: String
   var author: User
   var recipientId: String
   var title: String?
-    
+    var date: Date = Date()
 }
 

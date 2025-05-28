@@ -9,59 +9,73 @@
 import SwiftUI
 
 struct ChatListView: View {
-    @State var isShowingAlert = false
-    @State var model = ChatListModel()
-    
-    let onChatOpen: (String) -> Void
-    
-    var body: some View {
-        Form {
-            Section {
-                if let address = model.walletAddress {
-                    Button {
-                        model.copyWalletAddressTapped()
-                    } label: {
-                        Label(address, systemImage: "doc.on.doc")
-                            .lineLimit(1)
-                    }
-                }
-            } header: {
-                Text("Your address")
-            } footer: {
-                Text("Tap to copy")
-            }
-            
-            Section("Conversations") {
-                ForEach(model.chats) { chat in
-                    Button(chat.title ?? chat.id) {
-                        onChatOpen(chat.id)
-                    }
-                    .lineLimit(1)
-                    //.font(.regular, size: 17)
-                }
-            }
-        }
-        .navigationTitle("Chats")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            Button("Create chat") { isShowingAlert = true }
-        }
-        .alert("New Chat", isPresented: $isShowingAlert) {
-            TextField("Enter address", text: $model.newChatAddress)
-            Button("Create", action: model.createNewChat)
-        } message: {
-            Text("Provide an address of the recipient.")
-        }
-        .task {
-            await model.viewAppeared()
-        }
+  @State var isShowingAlert = false
+  @State var model = ChatListModel()
+
+  let onChatOpen: (String) -> Void
+
+  var body: some View {
+      ZStack(alignment: .top){
+          HStack{
+              Text("Bunter")
+                  .foregroundStyle(.white)
+                  .font(font: .bold, size: 23)
+              Spacer()
+              HStack(spacing: 15){
+                  Button {
+                      //
+                  } label: {
+                      Image(systemName: "magnifyingglass")
+                          .resizable()
+                          .scaledToFit()
+                          .frame(width: 14, height: 14)
+                          .padding(10)
+                          .background(.appSecond)
+                          .clipShape(Circle())
+                          .foregroundStyle(.white)
+                  }
+                  
+                  Button {
+                      //
+                  } label: {
+                      Image(systemName: "pencil")
+                          .resizable()
+                          .scaledToFit()
+                          .frame(width: 14, height: 14)
+                          .padding(10)
+                          .background(.appSecond)
+                          .clipShape(Circle())
+                          .foregroundStyle(.white)
+                  }
+
+
+              }
+          }
+          .padding(.bottom, 10)
+          .background(.appBG)
+          .zIndex(1)
+          ScrollView{
+              VStack(alignment: .leading, spacing: 25){
+                  
+              }
+              .padding(.top, 45)
+              
+          }
+      }
+      .padding(.horizontal, 20)
+      .background(.appBG)
+    .task {
+      await model.viewAppeared()
     }
+  }
 }
 
 #if DEBUG
-#Preview {
+  #Preview {
     NavigationStack {
-        ChatListView(onChatOpen: { _ in })
+      ChatListView(onChatOpen: { _ in })
     }
-}
+  }
 #endif
+
+
