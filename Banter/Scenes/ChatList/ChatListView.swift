@@ -59,7 +59,7 @@ struct ChatListView: View {
                   ForEach(model.chats) { chat in
                     ChatItemView(chatItem: chat)
                           .onTapGesture {
-                              //
+                              onChatOpen(chat.id)
                           }
                   }
               }
