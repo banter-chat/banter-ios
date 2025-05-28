@@ -26,7 +26,7 @@ struct Web3ChatSource: RemoteChatSource {
                                                    to: .latest)
 
           var chats = existingDTOs.compactMap(Chat.init).filter {
-            $0.recipientId == userId || $0.authorId == userId
+              $0.recipientId == userId || $0.author.id == userId
           }
 
           continuation.yield(chats)
@@ -37,7 +37,7 @@ struct Web3ChatSource: RemoteChatSource {
           for try await dto in updates {
             guard
               let newChat = Chat(dto: dto),
-              newChat.recipientId == userId || newChat.authorId == userId
+              newChat.recipientId == userId || newChat.author.id == userId
             else { continue }
 
             chats.append(newChat)
@@ -60,7 +60,7 @@ private extension Chat {
     else { return nil }
 
     id = chat.hex(eip55: true)
-    authorId = author.hex(eip55: true)
+      self.author = User(id: author.hex(eip55: true), name: "", photoColor: "", photoEmoji: "")
     recipientId = recipient.hex(eip55: true)
   }
 }
